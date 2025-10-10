@@ -1,0 +1,172 @@
+[
+  {
+    "chave": 1,
+    "nome": "João Silva",
+    "telefone": "(31) 99999-9999",
+    "foto": "https://via.placeholder.com/100",
+    "resumo": "Desenvolvedor Java com sólida experiência em sistemas corporativos e arquitetura de microsserviços.",
+    "campos": [
+      { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/joaosilva" },
+      { "nome_campo": "GitHub", "tipo_campo": "TEXTO", "valor_campo": "github.com/joaosilva" }
+    ],
+    "experiencias": [
+      {
+        "nome_experiencia": "Desenvolvedor Java Sênior",
+        "tipo_experiencia": "EXPERIENCIA",
+        "descricao_experiencia": "Atuação em arquitetura de sistemas distribuídos e APIs RESTful com Spring Boot.",
+        "periodo_inicio": "2015-05-01",
+        "em_curso": true,
+        "hashtags": "java springboot microservices",
+        "nome_instituicao": "Tech Solutions",
+        "chave_instituicao": "a1001"
+      },
+      {
+        "nome_experiencia": "Certificação Oracle Java SE 11 Developer",
+        "tipo_experiencia": "CERTIFICADO",
+        "descricao_experiencia": "Certificado oficial Oracle Java SE 11 Developer (1Z0-819).",
+        "periodo_inicio": "2020-06-01",
+        "periodo_fim": "2020-12-01",
+        "em_curso": false,
+        "hashtags": "oracle java certification",
+        "nome_instituicao": "Oracle University",
+        "chave_instituicao": "b1001"
+      }
+    ]
+  },
+  {
+    "chave": 2,
+    "nome": "Maria Fernandes",
+    "telefone": "(21) 98888-8888",
+    "foto": "https://via.placeholder.com/100",
+    "resumo": "Desenvolvedora Python com foco em automação de processos, análise de dados e machine learning.",
+    "campos": [
+      { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/mariafernandes" },
+      { "nome_campo": "Portfólio", "tipo_campo": "TEXTO", "valor_campo": "maria.dev" }
+    ],
+    "experiencias": [
+      {
+        "nome_experiencia": "Engenheira de Dados Python",
+        "tipo_experiencia": "EXPERIENCIA",
+        "descricao_experiencia": "Criação de pipelines de dados e automação com Airflow e Pandas.",
+        "periodo_inicio": "2018-02-01",
+        "em_curso": true,
+        "hashtags": "python airflow pandas etl",
+        "nome_instituicao": "DataCloud Analytics",
+        "chave_instituicao": "a2002"
+      },
+      {
+        "nome_experiencia": "Certificação em Data Science com Python",
+        "tipo_experiencia": "CERTIFICADO",
+        "descricao_experiencia": "Curso avançado de ciência de dados com Python e Scikit-Learn.",
+        "periodo_inicio": "2019-01-10",
+        "periodo_fim": "2019-07-15",
+        "em_curso": false,
+        "hashtags": "datascience sklearn python",
+        "nome_instituicao": "Coursera / IBM",
+        "chave_instituicao": "b2002"
+      }
+    ]
+  },
+  {
+    "chave": 3,
+    "nome": "Carlos Mendes",
+    "telefone": "(11) 97777-7777",
+    "foto": "https://via.placeholder.com/100",
+    "resumo": "Analista de BI com experiência em Power BI, SQL Server e modelagem dimensional.",
+    "campos": [
+      { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/carlosmendes" },
+      { "nome_campo": "Power BI ID", "tipo_campo": "TEXTO", "valor_campo": "cmendes_bi" }
+    ],
+    "experiencias": [
+      {
+        "nome_experiencia": "Analista de BI Pleno",
+        "tipo_experiencia": "EXPERIENCIA",
+        "descricao_experiencia": "Desenvolvimento de dashboards interativos e KPIs corporativos.",
+        "periodo_inicio": "2017-04-01",
+        "em_curso": true,
+        "hashtags": "bi powerbi sql etl",
+        "nome_instituicao": "Insight Data Ltda",
+        "chave_instituicao": "a3003"
+      },
+      {
+        "nome_experiencia": "Certificação Power BI Data Analyst Associate",
+        "tipo_experiencia": "CERTIFICADO",
+        "descricao_experiencia": "Certificação Microsoft PL-300: Power BI Data Analyst.",
+        "periodo_inicio": "2021-05-01",
+        "periodo_fim": "2021-08-01",
+        "em_curso": false,
+        "hashtags": "microsoft powerbi certification",
+        "nome_instituicao": "Microsoft Learn",
+        "chave_instituicao": "b3003"
+      }
+    ]
+  },
+  {
+    "chave": 4,
+    "nome": "Fernanda Oliveira",
+    "telefone": "(41) 96666-6666",
+    "foto": "https://via.placeholder.com/100",
+    "resumo": "Especialista em Testes e QA, com forte atuação em automação, integração contínua e qualidade de software.",
+    "campos": [
+      { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/fernandaoliveira" },
+      { "nome_campo": "Ferramenta Favorita", "tipo_campo": "TEXTO", "valor_campo": "Selenium" }
+    ],
+    "experiencias": [
+      {
+        "nome_experiencia": "Especialista em Testes Automatizados",
+        "tipo_experiencia": "EXPERIENCIA",
+        "descricao_experiencia": "Desenvolvimento de frameworks de testes com Selenium e Jest.",
+        "periodo_inicio": "2016-09-01",
+        "em_curso": true,
+        "hashtags": "qa testes selenium jest",
+        "nome_instituicao": "QualitySoft",
+        "chave_instituicao": "a4004"
+      },
+      {
+        "nome_experiencia": "Certificação ISTQB Advanced Level",
+        "tipo_experiencia": "CERTIFICADO",
+        "descricao_experiencia": "Certificação internacional em testes de software (ISTQB AL).",
+        "periodo_inicio": "2020-03-01",
+        "periodo_fim": "2020-06-01",
+        "em_curso": false,
+        "hashtags": "istqb qa testing",
+        "nome_instituicao": "BSTQB",
+        "chave_instituicao": "b4004"
+      }
+    ]
+  },
+  {
+    "chave": 5,
+    "nome": "Ricardo Alves",
+    "telefone": "(85) 95555-5555",
+    "foto": "https://via.placeholder.com/100",
+    "resumo": "Especialista em PHP com foco em sistemas web de alta performance e APIs REST.",
+    "campos": [
+      { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/ricardoalves" },
+      { "nome_campo": "Repositório", "tipo_campo": "TEXTO", "valor_campo": "github.com/ricardophp" }
+    ],
+    "experiencias": [
+      {
+        "nome_experiencia": "Líder Técnico PHP",
+        "tipo_experiencia": "EXPERIENCIA",
+        "descricao_experiencia": "Responsável por projetos em Laravel e integração com APIs externas.",
+        "periodo_inicio": "2014-01-01",
+        "em_curso": true,
+        "hashtags": "php laravel api",
+        "nome_instituicao": "WebFactory",
+        "chave_instituicao": "a5005"
+      },
+      {
+        "nome_experiencia": "Certificação Zend PHP Engineer",
+        "tipo_experiencia": "CERTIFICADO",
+        "descricao_experiencia": "Certificação oficial Zend Certified Engineer (ZCE).",
+        "periodo_inicio": "2019-09-01",
+        "periodo_fim": "2020-02-01",
+        "em_curso": false,
+        "hashtags": "zend php certification",
+        "nome_instituicao": "Zend Technologies",
+        "chave_instituicao": "b5005"
+      }
+    ]
+  }
+]
