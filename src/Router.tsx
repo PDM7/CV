@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import IndexPage from "./pages/IndexPage";
 import PainelPage from "./pages/PainelPage";
-import PerfilPage from "./pages/PerfilPage";
+import PerfilPage from "./pages/profile/PerfilPage";
 export default function Router() {
   return (
     <Routes>
