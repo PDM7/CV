@@ -100,11 +100,16 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
               <p className="text-gray-600 mb-1">{perfil.telefone}</p>
               <p className="text-gray-700 leading-relaxed">{perfil.resumo}</p>
             </div>
-            <img 
-              src={perfil.foto} 
-              alt="Foto" 
-              className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
-            />
+       {perfil.foto && perfil.foto !== "" && (
+  <img
+    src={perfil.foto}
+    alt="Foto"
+    className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+    onError={(e) => (e.currentTarget.style.display = "none")}
+  />
+)}
+
+
           </div>
 
           {/* Links/Contatos */}
