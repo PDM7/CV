@@ -22,7 +22,7 @@ export default function PerfilForm({ perfil, setPerfil, onSave }: PerfilFormProp
       {/* Seção principal */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="label">Nome</label>
+          <label className="label display">Nome</label>
           <input
             name="nome"
             className="input input-bordered w-full"

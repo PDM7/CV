@@ -44,6 +44,7 @@ export default function CamposSection({ perfil, setPerfil }: CamposSectionProps)
             <option value="TEXTO">TEXTO</option>
             <option value="NUMERO">NUMERO</option>
             <option value="DATA">DATA</option>
+            <option value="URL">URL</option>
           </select>
           <input
             className="input input-bordered w-1/2"

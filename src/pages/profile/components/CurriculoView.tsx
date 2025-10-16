@@ -96,7 +96,7 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
           {/* Cabeçalho */}
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">{perfil.nome}</h1>
+              <h1 className="text-4xl text-gray-800 mb-2">{perfil.nome}</h1>
               <p className="text-gray-600 mb-1">{perfil.telefone}</p>
               <p className="text-gray-700 leading-relaxed">{perfil.resumo}</p>
             </div>
@@ -110,15 +110,29 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
           {/* Links/Contatos */}
           {perfil.campos.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2 mb-3">
-                Contatos & Links
-              </h2>
+              
+              
               <div className="flex flex-wrap gap-4">
                 {perfil.campos.map((campo, index) => (
                   <div key={index} className="flex items-center">
                     <span className="font-medium text-gray-700 mr-2">{campo.nome_campo}:</span>
                     <span className="text-blue-600 hover:text-blue-800">
-                      {campo.valor_campo}
+                      
+                    {campo.tipo_campo === "URL" ? (
+                      <a
+                        href={campo.valor_campo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 "
+                      >
+                        {campo.valor_campo}
+                      </a>
+                    ) : (
+                      <span className="text-blue-600 hover:text-blue-800">
+                        {campo.valor_campo}
+                      </span>
+                    )}
+
                     </span>
                   </div>
                 ))}
@@ -148,9 +162,9 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
                         {exp.hashtags.split(" ").map((tag, tagIndex) => (
                           <span 
                             key={tagIndex}
-                            className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                            className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded"
                           >
-                            #{tag}
+                            {tag}
                           </span>
                         ))}
                       </div>
@@ -179,9 +193,9 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
                           {cert.hashtags.split(" ").map((tag, tagIndex) => (
                             <span 
                               key={tagIndex}
-                              className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                              className="text-xs bg-green-50 text-green-800 px-2 py-1 rounded"
                             >
-                              #{tag}
+                              {tag}
                             </span>
                           ))}
                         </div>
