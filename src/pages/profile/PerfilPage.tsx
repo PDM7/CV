@@ -44,7 +44,7 @@ export default function PerfilPage() {
     chave: 1,
     nome: "João Silva",
     telefone: "(11) 98765-4321",
-    foto: "https://via.placeholder.com/150",
+    foto: "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     resumo: "Desenvolvedor Fullstack com experiência em React, Node.js e bancos de dados relacionais e não relacionais. Apaixonado por criar soluções escaláveis e eficientes.",
     campos: [
       { nome_campo: "Email", tipo_campo: "TEXTO", valor_campo: "joao.silva@example.com" },

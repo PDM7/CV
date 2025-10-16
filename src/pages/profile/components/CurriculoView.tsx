@@ -134,7 +134,7 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
               </h2>
               <div className="space-y-4">
                 {experiencias.map((exp, index) => (
-                  <div key={index} className="border-l-4 border-blue-500 pl-4">
+                  <div key={index} className="border-blue-500 pl-4">
                     <div className="flex justify-between items-start mb-1">
                       <h3 className="text-lg font-semibold text-gray-800">{exp.nome_experiencia}</h3>
                       <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">

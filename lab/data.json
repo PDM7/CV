@@ -3,7 +3,7 @@
     "chave": 1,
     "nome": "João Silva",
     "telefone": "(31) 99999-9999",
-    "foto": "https://via.placeholder.com/100",
+    "foto": "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     "resumo": "Desenvolvedor Java com sólida experiência em sistemas corporativos e arquitetura de microsserviços.",
     "campos": [
       { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/joaosilva" },
@@ -37,7 +37,7 @@
     "chave": 2,
     "nome": "Maria Fernandes",
     "telefone": "(21) 98888-8888",
-    "foto": "https://via.placeholder.com/100",
+    "foto": "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     "resumo": "Desenvolvedora Python com foco em automação de processos, análise de dados e machine learning.",
     "campos": [
       { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/mariafernandes" },
@@ -71,7 +71,7 @@
     "chave": 3,
     "nome": "Carlos Mendes",
     "telefone": "(11) 97777-7777",
-    "foto": "https://via.placeholder.com/100",
+    "foto": "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     "resumo": "Analista de BI com experiência em Power BI, SQL Server e modelagem dimensional.",
     "campos": [
       { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/carlosmendes" },
@@ -105,7 +105,7 @@
     "chave": 4,
     "nome": "Fernanda Oliveira",
     "telefone": "(41) 96666-6666",
-    "foto": "https://via.placeholder.com/100",
+    "foto": "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     "resumo": "Especialista em Testes e QA, com forte atuação em automação, integração contínua e qualidade de software.",
     "campos": [
       { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/fernandaoliveira" },
@@ -139,7 +139,7 @@
     "chave": 5,
     "nome": "Ricardo Alves",
     "telefone": "(85) 95555-5555",
-    "foto": "https://via.placeholder.com/100",
+    "foto": "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     "resumo": "Especialista em PHP com foco em sistemas web de alta performance e APIs REST.",
     "campos": [
       { "nome_campo": "LinkedIn", "tipo_campo": "TEXTO", "valor_campo": "linkedin.com/in/ricardoalves" },
