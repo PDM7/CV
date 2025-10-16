@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "tailwindcss";
+
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
@@ -35,8 +38,6 @@
   --depth: 1;
   --noise: 0;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   font-family: 'Roboto Condensed', sans-serif;
