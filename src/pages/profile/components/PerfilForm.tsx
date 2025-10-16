@@ -16,7 +16,7 @@ export default function PerfilForm({ perfil, setPerfil, onSave }: PerfilFormProp
   };
 
   return (
-    <div className="p-8 bg-base-200 rounded-2xl shadow-lg m-5">
+    <div className="p-8 bg-base-200 rounded-2xl shadow-lg m-5 curriculo-a4 max-w-6xl mx-auto my-8 ">
       <h2 className="text-2xl font-bold mb-5">Gerenciar Perfil</h2>
 
       {/* Seção principal */}
