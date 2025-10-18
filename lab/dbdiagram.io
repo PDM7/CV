@@ -38,6 +38,7 @@ Table campos {
 Table status_experiencia {
   nome_status_experiencia VARCHAR [pk, unique, not null]
   tipo_experiencia VARCHAR [ref: > tipo_experiencia.nome_tipo_experiencia]
+  titulo_status_experiencia varchar NOT NULL
 }
 
 Table experiencias {
