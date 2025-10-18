@@ -1,17 +1,15 @@
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import type { Perfil } from "../PerfilPage";
+import { useUser } from "../../../contexts/UserContext";
+import type { BaseExperiencia } from "../../../types/user";
 
-interface CurriculoViewProps {
-  perfil: Perfil;
-}
-
-export default function CurriculoView({ perfil }: CurriculoViewProps) {
+export default function CurriculoView() {
+  const { perfil } = useUser();
   const componentRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `Curriculo_${perfil.nome.replace(/\s+/g, '_')}`,
+    documentTitle: `Curriculo_${perfil.nome.replace(/\s+/g, "_")}`,
     pageStyle: `
         @page {
         size: A4;
@@ -37,14 +35,66 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
     return `${mes}/${ano}`;
   };
 
-  const formatarPeriodo = (inicio: string, fim: string, emCurso: boolean) => {
+  const formatarPeriodo = (inicio: string, fim: string | undefined, emCurso: boolean) => {
     const inicioFormatado = formatarData(inicio);
     const fimFormatado = emCurso ? "Atual" : formatarData(fim || "");
     return `${inicioFormatado} - ${fimFormatado}`;
   };
 
-  const experiencias = perfil.experiencias.filter(exp => exp.tipo_experiencia === "EXPERIENCIA");
-  const certificados = perfil.experiencias.filter(exp => exp.tipo_experiencia === "CERTIFICADO");
+  const renderExperiencia = (exp: BaseExperiencia) => {
+    return (
+      <div key={exp.chave} className="border-blue-500 pl-4 mb-4">
+        {!exp.tipo_experiencia.startsWith("PERSONALIZADO_") && (
+          <div className="flex justify-between items-start mb-1">
+            <h3 className="text-lg font-semibold text-gray-800">
+              {exp.nome_experiencia}
+            </h3>
+            <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
+              {formatarPeriodo(exp.periodo_inicio, exp.periodo_fim, exp.em_curso)}
+            </span>
+          </div>
+        )}
+        {exp.tipo_experiencia.startsWith("PERSONALIZADO_") && (
+          <h3 className="text-lg font-semibold text-gray-800 mb-1">
+            {exp.nome_experiencia}
+          </h3>
+        )}
+        {!exp.tipo_experiencia.startsWith("PERSONALIZADO_") && (
+          <p className="text-gray-700 font-medium mb-1">
+            {exp.nome_instituicao}
+          </p>
+        )}
+        <p className="text-gray-600 mb-2">
+          {exp.descricao_experiencia}
+        </p>
+        {!exp.tipo_experiencia.startsWith("PERSONALIZADO_") && exp.hashtags && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {exp.hashtags.split(" ").map((tag, tagIndex) => (
+              <span
+                key={tagIndex}
+                className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Agrupar experiências por tipo_experiencia
+  const experienciasAgrupadas = perfil.experiencias.reduce(
+    (acc: { [key: string]: BaseExperiencia[] }, exp) => {
+      const tipo = exp.tipo_experiencia || "Outros";
+      if (!acc[tipo]) {
+        acc[tipo] = [];
+      }
+      acc[tipo].push(exp);
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div>
@@ -53,7 +103,7 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
           🖨️ Imprimir Currículo
         </button>
       </div>
-      
+
       <div ref={componentRef}>
         <style>{`
           .curriculo-a4 {
@@ -91,7 +141,7 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
             }
           }
         `}</style>
-        
+
         <div className="curriculo-a4 bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto my-8 border">
           {/* Cabeçalho */}
           <div className="flex items-start justify-between mb-6">
@@ -100,44 +150,40 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
               <p className="text-gray-600 mb-1">{perfil.telefone}</p>
               <p className="text-gray-700 leading-relaxed">{perfil.resumo}</p>
             </div>
-       {perfil.foto && perfil.foto !== "" && (
-  <img
-    src={perfil.foto}
-    alt="Foto"
-    className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
-    onError={(e) => (e.currentTarget.style.display = "none")}
-  />
-)}
-
-
+            {perfil.foto && perfil.foto !== "" && (
+              <img
+                src={perfil.foto}
+                alt="Foto"
+                className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
+            )}
           </div>
 
           {/* Links/Contatos */}
           {perfil.campos.length > 0 && (
             <div className="mb-6">
-              
-              
               <div className="flex flex-wrap gap-4">
                 {perfil.campos.map((campo, index) => (
                   <div key={index} className="flex items-center">
-                    <span className="font-medium text-gray-700 mr-2">{campo.nome_campo}:</span>
+                    <span className="font-medium text-gray-700 mr-2">
+                      {campo.nome_campo}:
+                    </span>
                     <span className="text-blue-600 hover:text-blue-800">
-                      
-                    {campo.tipo_campo === "URL" ? (
-                      <a
-                        href={campo.valor_campo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 "
-                      >
-                        {campo.valor_campo}
-                      </a>
-                    ) : (
-                      <span className="text-blue-600 hover:text-blue-800">
-                        {campo.valor_campo}
-                      </span>
-                    )}
-
+                      {campo.tipo_campo === "URL" ? (
+                        <a
+                          href={campo.valor_campo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 "
+                        >
+                          {campo.valor_campo}
+                        </a>
+                      ) : (
+                        <span className="text-blue-600 hover:text-blue-800">
+                          {campo.valor_campo}
+                        </span>
+                      )}
                     </span>
                   </div>
                 ))}
@@ -145,76 +191,21 @@ export default function CurriculoView({ perfil }: CurriculoViewProps) {
             </div>
           )}
 
-          {/* Experiências Profissionais */}
-          {experiencias.length > 0 && (
-            <div className="mb-6">
+          {/* Renderizar seções de experiências dinamicamente */}
+          {Object.entries(experienciasAgrupadas).map(([tipo, experiencias], groupIndex) => (
+            <div key={groupIndex} className="mb-6">
               <h2 className="text-xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2 mb-3">
-                Experiência Profissional
+                {tipo === "EXPERIENCIA" ? "Experiência Profissional" : tipo === "CERTIFICADO" ? "Formações Acadêmicas" : tipo.replace(/PERSONALIZADO_/, '').replace(/_/g, ' ')}
               </h2>
               <div className="space-y-4">
-                {experiencias.map((exp, index) => (
-                  <div key={index} className="border-blue-500 pl-4">
-                    <div className="flex justify-between items-start mb-1">
-                      <h3 className="text-lg font-semibold text-gray-800">{exp.nome_experiencia}</h3>
-                      <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                        {formatarPeriodo(exp.periodo_inicio, exp.periodo_fim || "", exp.em_curso)}
-                      </span>
-                    </div>
-                    <p className="text-gray-700 font-medium mb-1">{exp.nome_instituicao}</p>
-                    <p className="text-gray-600 mb-2">{exp.descricao_experiencia}</p>
-                    {exp.hashtags && (
-                      <div className="flex flex-wrap gap-1">
-                        {exp.hashtags.split(" ").map((tag, tagIndex) => (
-                          <span 
-                            key={tagIndex}
-                            className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {experiencias.map(renderExperiencia)}
               </div>
+              {groupIndex < Object.keys(experienciasAgrupadas).length - 1 && (
+                <hr className="my-6 border-gray-200" />
+              )}
             </div>
-          )}
+          ))}
 
-          {/* Certificações */}
-          {certificados.length > 0 && (
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2 mb-3">
-                Certificações
-              </h2>
-              <div className="space-y-3">
-                {certificados.map((cert, index) => (
-                  <div key={index} className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-gray-800">{cert.nome_experiencia}</h3>
-                      <p className="text-gray-600">{cert.nome_instituicao}</p>
-                      <p className="text-gray-500 text-sm">{cert.descricao_experiencia}</p>
-                      {cert.hashtags && (
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {cert.hashtags.split(" ").map((tag, tagIndex) => (
-                            <span 
-                              key={tagIndex}
-                              className="text-xs bg-green-50 text-green-800 px-2 py-1 rounded"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-sm text-gray-600">
-                      {formatarData(cert.periodo_inicio)}
-                      {cert.periodo_fim && ` - ${formatarData(cert.periodo_fim)}`}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

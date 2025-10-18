@@ -1,12 +1,10 @@
-import React from "react";
-import type { Perfil, Campo } from "../PerfilPage"; 
+import type { Campo } from "../../../types/user";
+import { useUser } from "../../../contexts/UserContext";
 
-interface CamposSectionProps {
-  perfil: Perfil;
-  setPerfil: React.Dispatch<React.SetStateAction<Perfil>>;
-}
 
-export default function CamposSection({ perfil, setPerfil }: CamposSectionProps) {
+export default function CamposSection() {
+  const { perfil, setPerfil } = useUser();
+
   const handleCampoChange = (index: number, field: keyof Campo, value: string) => {
     const novosCampos = [...perfil.campos];
     novosCampos[index] = { ...novosCampos[index], [field]: value };
