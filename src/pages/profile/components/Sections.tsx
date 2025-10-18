@@ -78,6 +78,7 @@ export default function ExperienciasCertificadosSection() {
     {}
   );
 
+
   const renderExperienceSection = (
     title: string,
     type: string,
@@ -104,7 +105,7 @@ export default function ExperienciasCertificadosSection() {
       <button
         className="btn btn-outline btn-sm mt-4"
         onClick={() =>
-          handleAddExperiencia(type, `Nova ${title.replace(/s$/, "")}`)
+          handleAddExperiencia(type, `${type == "CERTIFICADO" ? "Novo certificado" : "Nova experiência"}`)
         }
       >
         ➕ Adicionar {title.replace(/s$/, "")}
