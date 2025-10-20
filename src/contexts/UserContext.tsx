@@ -1,27 +1,52 @@
-import { createContext, useContext, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import type { ReactNode } from "react";
-import type { Perfil } from "../types/user";
+import type { Perfil } from "../types/profile";
 import { defaultData } from "../default.data";
+import { useNavigate } from "react-router-dom";
+import Repository from "../bd/Repository";
 
 interface UserContextType {
-    perfil: Perfil;
-    setPerfil: Dispatch<SetStateAction<Perfil>>;
-    savePerfil: () => void;
+  perfil: Perfil;
+  setPerfil: Dispatch<SetStateAction<Perfil>>;
+  savePerfil: () => void;
+  logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [perfil, setPerfil] = useState<Perfil>(
-    JSON.parse(localStorage.getItem("profile") || JSON.stringify(defaultData))
-  );
+  const nav = useNavigate();
+  const repo = new Repository();
+
+  const [perfil, setPerfil] = useState<Perfil>(() => {
+    const stored = localStorage.getItem("profile");
+    const initialPerfil = stored ? JSON.parse(stored) : defaultData;
+
+    const perfilAtualizado = repo.saveProfile(initialPerfil);
+
+    return perfilAtualizado;
+  });
 
   const savePerfil = () => {
-    localStorage.setItem("profile", JSON.stringify(perfil));
+    const perfilAtualizado = repo.saveProfile(perfil);
+
+    setPerfil(perfilAtualizado);
+  };
+
+  const logout = () => {
+    setPerfil(defaultData);
+    localStorage.removeItem("profile");
+    nav("/");
   };
 
   return (
-    <UserContext.Provider value={{ perfil, setPerfil, savePerfil }}>
+    <UserContext.Provider value={{ perfil, setPerfil, savePerfil, logout }}>
       {children}
     </UserContext.Provider>
   );

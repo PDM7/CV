@@ -1,4 +1,4 @@
-import { CurriculumHeader } from "../components/Header";
+import Navbar from "../components/Header";
 import { useNavigate } from "react-router-dom";
 interface CardProps {
   title: string;
@@ -82,7 +82,7 @@ const navigate = useNavigate();
 export function PainelPage() {
   return (
     <main className="min-h-screen bg-base-300">
-      <CurriculumHeader />
+      <Navbar />
       <CardClient />
     </main>
   );

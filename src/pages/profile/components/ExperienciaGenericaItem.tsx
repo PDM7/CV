@@ -1,14 +1,13 @@
-import type { BaseExperiencia } from "../../../types/user";
-
+import type { BaseExperiencia, Experiencia, NovaExperiencia } from "../../../types/profile";
 interface ExperienciaGenericaItemProps {
-  experiencia: BaseExperiencia;
-  index: number;
+  experiencia: Experiencia | NovaExperiencia;
+  index: number | string;
   onExpChange: <K extends keyof BaseExperiencia>(
-    index: number,
+    index: number | string,
     field: K,
     value: BaseExperiencia[K]
   ) => void;
-  onRemove: (index: number) => void;
+  onRemove: (id: number | string) => void;
 }
 
 export default function ExperienciaGenericaItem({
@@ -18,16 +17,11 @@ export default function ExperienciaGenericaItem({
   onRemove,
 }: ExperienciaGenericaItemProps) {
 
-  const isCustomSection = experiencia.tipo_experiencia.startsWith("PERSONALIZADO_");
 
   return (
     <div className="border p-4 rounded-xl mb-4 bg-base-100">
-      <h4 className="text-lg font-semibold mb-2">
-  {isCustomSection 
-    ? `Seção Personalizada: ${experiencia.nome_experiencia}`
-    : experiencia.nome_experiencia
-  }
-</h4>
+      <h4 className="text-lg font-semibold mb-2">{experiencia.nome_experiencia}
+      </h4>
 
       <div className="grid grid-cols-2 gap-2">
         <input
@@ -37,13 +31,11 @@ export default function ExperienciaGenericaItem({
           onChange={(e) => onExpChange(index, "nome_experiencia", e.target.value)}
         />
         <input
-          className={`input input-bordered ${isCustomSection ? 'col-span-2' : ''}`}
+          className={`input input-bordered`}
           placeholder="Descrição"
           value={experiencia.descricao_experiencia}
           onChange={(e) => onExpChange(index, "descricao_experiencia", e.target.value)}
         />
-        
-        {!isCustomSection && (
           <>
             <input
               type="date"
@@ -85,7 +77,6 @@ export default function ExperienciaGenericaItem({
               onChange={(e) => onExpChange(index, "chave_instituicao", e.target.value)}
             />
           </>
-        )}
       </div>
 
       <div className="text-right mt-3">

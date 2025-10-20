@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ExperienciaGenericaItem from "./ExperienciaGenericaItem";
-import type { BaseExperiencia } from "../../../types/user";
+import type {
+  Experiencia,
+  NovaExperiencia,
+  BaseExperiencia,
+} from "../../../types/profile";
+
 import { useUser } from "../../../contexts/UserContext";
 
 export default function ExperienciasCertificadosSection() {
@@ -9,95 +14,104 @@ export default function ExperienciasCertificadosSection() {
   const [showNewCustomSectionInput, setShowNewCustomSectionInput] =
     useState(false);
 
+  const tempIdCounter = useRef(0);
+
   const handleExpChange = <K extends keyof BaseExperiencia>(
-    index: number,
+    id: number | string,
     field: K,
     value: BaseExperiencia[K]
   ) => {
-    const novasExp = [...perfil.experiencias];
-    novasExp[index] = {
-      ...novasExp[index],
-      [field]: value,
-    };
+    const novasExp = perfil.experiencias.map((exp) => {
+      const expId = "chave" in exp ? exp.chave : exp.tempId;
+      if (expId === id) {
+        return { ...exp, [field]: value };
+      }
+      return exp;
+    });
     setPerfil({ ...perfil, experiencias: novasExp });
   };
 
   const handleAddExperiencia = (tipo: string, nomePadrao: string) => {
+    tempIdCounter.current += 1;
+    const novaExp: NovaExperiencia = {
+      tempId: `temp-${tempIdCounter.current}`,
+      chave_perfil: perfil.chave,
+      nome_experiencia: nomePadrao,
+      tipo_experiencia: tipo,
+      descricao_experiencia: "",
+      periodo_inicio: "",
+      periodo_fim: "",
+      em_curso: false,
+      hashtags: "",
+      nome_instituicao: "",
+      chave_instituicao: nomePadrao.toLowerCase().trim().replace(/\s+/g, "-"),
+    };
+
     setPerfil({
       ...perfil,
-      experiencias: [
-        ...perfil.experiencias,
-        {
-          chave: `${tipo}-${Date.now()}`,
-          nome_experiencia: nomePadrao,
-          tipo_experiencia: tipo,
-          descricao_experiencia: "",
-          periodo_inicio: "",
-          periodo_fim: "",
-          em_curso: false,
-          hashtags: "",
-          nome_instituicao: "",
-          chave_instituicao: Date.now().toString(),
-          campos_personalizados: [],
-        } as BaseExperiencia,
-      ],
+      experiencias: [...perfil.experiencias, novaExp],
     });
   };
 
   const handleCreateCustomSection = () => {
-    if (newCustomSectionName.trim() === "") {
+    const nomeTrim = newCustomSectionName.trim();
+    if (!nomeTrim) {
       alert("Por favor, insira um nome para a nova seção personalizada.");
       return;
     }
 
-    const customIndex =
-      perfil.experiencias.filter((exp) =>
-        exp.tipo_experiencia.startsWith("PERSONALIZADO_")
-      ).length + 1;
-    const tipoPersonalizado = `PERSONALIZADO_${customIndex}`;
+    const tipoPersonalizado = nomeTrim.replace(/\s+/g, "_");
 
-    handleAddExperiencia(tipoPersonalizado, newCustomSectionName.trim());
+    const existe = perfil.experiencias.some(
+      (exp) => exp.tipo_experiencia === tipoPersonalizado
+    );
+    if (existe) {
+      alert("Já existe uma seção com esse nome.");
+      return;
+    }
+
+    handleAddExperiencia(tipoPersonalizado, nomeTrim);
     setNewCustomSectionName("");
     setShowNewCustomSectionInput(false);
   };
 
-  const handleRemoveExp = (idToRemove: string) => {
-    const novasExp = perfil.experiencias.filter((exp) => exp.chave !== idToRemove);
+  const handleRemoveExp = (idToRemove: number | string) => {
+    const novasExp = perfil.experiencias.filter(
+      (exp) =>
+        ("chave" in exp && exp.chave !== idToRemove) ||
+        ("tempId" in exp && exp.tempId !== idToRemove)
+    );
     setPerfil({ ...perfil, experiencias: novasExp });
   };
 
   const experienciasAgrupadas = perfil.experiencias.reduce(
-    (acc: { [key: string]: BaseExperiencia[] }, exp) => {
+    (acc: { [key: string]: (Experiencia | NovaExperiencia)[] }, exp) => {
       const tipo = exp.tipo_experiencia || "Outros";
-      if (!acc[tipo]) {
-        acc[tipo] = [];
-      }
+      if (!acc[tipo]) acc[tipo] = [];
       acc[tipo].push(exp);
       return acc;
     },
     {}
   );
 
-
   const renderExperienceSection = (
     title: string,
     type: string,
-    experiences: BaseExperiencia[]
+    experiences: (Experiencia | NovaExperiencia)[]
   ) => (
     <div className="mb-6 p-4 border rounded-lg bg-base-100 shadow-sm">
       <h4 className="text-lg font-medium mb-3">{title}</h4>
       <div className="space-y-4">
-        {experiences.map((exp) => {
-          const originalIndex = perfil.experiencias.findIndex(
-            (item) => item.chave === exp.chave
-          );
+        {experiences.map((exp, index) => {
+          const expId =
+            "chave" in exp && exp.chave != null ? exp.chave : exp.tempId;
           return (
             <ExperienciaGenericaItem
-              key={exp.chave}
+              key={`section-${type}-${expId}-${index}`}
               experiencia={exp}
-              index={originalIndex}
+              index={expId}
               onExpChange={handleExpChange}
-              onRemove={() => handleRemoveExp(exp.chave)}
+              onRemove={() => handleRemoveExp(expId)}
             />
           );
         })}
@@ -105,7 +119,16 @@ export default function ExperienciasCertificadosSection() {
       <button
         className="btn btn-outline btn-sm mt-4"
         onClick={() =>
-          handleAddExperiencia(type, `${type == "CERTIFICADO" ? "Novo certificado" : "Nova experiência"}`)
+          handleAddExperiencia(
+            type,
+            `${
+              type === "CERTIFICADO"
+                ? "Novo certificado"
+                : type === "EXPERIENCIA"
+                ? "Nova experiência"
+                : type.replace(/_/g, " ")
+            }`
+          )
         }
       >
         ➕ Adicionar {title.replace(/s$/, "")}
@@ -163,7 +186,6 @@ export default function ExperienciasCertificadosSection() {
         experienciasAgrupadas["EXPERIENCIA"] || []
       )}
 
-     
       <hr className="my-6" />
       {renderExperienceSection(
         "Formações Acadêmicas",
@@ -173,26 +195,28 @@ export default function ExperienciasCertificadosSection() {
       <hr className="my-6" />
 
       {Object.entries(experienciasAgrupadas)
-        .filter(([type]) => type.startsWith("PERSONALIZADO_"))
-        .map(([type, experiences], index) => (
-          <React.Fragment key={type + '-' + index}>
-            {renderExperienceSection(
-              experiences[0]?.nome_experiencia ||
-                type.replace(/PERSONALIZADO_/, "").replace(/_/g, " "),
-              type,
-              experiences
-            )}
-            {index <
-              Object.entries(experienciasAgrupadas).filter(([t]) =>
-                t.startsWith("PERSONALIZADO_")
-              ).length -
-                1 && <hr className="my-6" />}
-          </React.Fragment>
-        ))}
-
-      {Object.keys(experienciasAgrupadas).filter(([type]) =>
-        type.startsWith("PERSONALIZADO_")
-      ).length > 0 && <hr className="my-6" />}
+        .filter(([type]) => type !== "EXPERIENCIA" && type !== "CERTIFICADO")
+        .map(([type, experiences], index) => {
+          const firstExp = experiences[0];
+          const expId =
+            "chave" in firstExp && firstExp.chave != null
+              ? firstExp.chave
+              : firstExp.tempId;
+          return (
+            <React.Fragment key={"section-" + type + "-" + expId}>
+              {renderExperienceSection(
+                type.replace(/_/g, " "),
+                type,
+                experiences
+              )}
+              {index <
+                Object.entries(experienciasAgrupadas).filter(
+                  ([t]) => t !== "EXPERIENCIA" && t !== "CERTIFICADO"
+                ).length -
+                  1 && <hr className="my-6" />}
+            </React.Fragment>
+          );
+        })}
 
       {renderCustomSectionCreator()}
     </div>

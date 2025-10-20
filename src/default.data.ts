@@ -1,17 +1,20 @@
-export const defaultData = {
+import type { Campo, Experiencia, Perfil } from "./types/profile"
+
+export const defaultData: Perfil = {
     chave: 1,
     nome: "João Silva",
     telefone: "(11) 98765-4321",
     foto: "https://static.vecteezy.com/system/resources/thumbnails/047/268/484/small/cheerful-software-developer-focused-on-his-computer-at-workstation-free-photo.jpeg",
     resumo: "Desenvolvedor Fullstack com experiência em React, Node.js e bancos de dados relacionais e não relacionais. Apaixonado por criar soluções escaláveis e eficientes.",
     campos: [
-      { nome_campo: "Email", tipo_campo: "TEXTO", valor_campo: "joao.silva@example.com" },
-      { nome_campo: "LinkedIn", tipo_campo: "TEXTO", valor_campo: "linkedin.com/in/joaosilva" },
-      { nome_campo: "GitHub", tipo_campo: "TEXTO", valor_campo: "github.com/joaosilva" },
-    ],
+      { chave: 1, nome_campo: "Email", tipo_campo: "TEXTO", valor_campo: "joao.silva@example.com" },
+      { chave: 2, nome_campo: "LinkedIn", tipo_campo: "TEXTO", valor_campo: "linkedin.com/in/joaosilva" },
+      { chave: 3, nome_campo: "GitHub", tipo_campo: "TEXTO", valor_campo: "github.com/joaosilva" },
+    ] as Campo[],
     experiencias: [
       {
-        chave: "exp-1",
+        chave: 1,
+        chave_perfil: 1,
         nome_experiencia: "Desenvolvedor Sênior",
         tipo_experiencia: "EXPERIENCIA",
         descricao_experiencia: "Desenvolvimento e manutenção de aplicações web utilizando React e Node.js.",
@@ -23,7 +26,8 @@ export const defaultData = {
         chave_instituicao: "tech-solutions-1",
       },
       {
-        chave: "exp-2",
+        chave: 2,
+        chave_perfil: 1,
         nome_experiencia: "Desenvolvedor Pleno",
         tipo_experiencia: "EXPERIENCIA",
         descricao_experiencia: "Participação no desenvolvimento de novas funcionalidades e correção de bugs.",
@@ -35,7 +39,8 @@ export const defaultData = {
         chave_instituicao: "web-innovators-1",
       },
       {
-        chave: "cert-1",
+        chave: 3,
+        chave_perfil: 1,
         nome_experiencia: "Certificado AWS Cloud Practitioner",
         tipo_experiencia: "CERTIFICADO",
         descricao_experiencia: "Certificação fundamental em conceitos de nuvem AWS.",
@@ -47,10 +52,11 @@ export const defaultData = {
         chave_instituicao: "aws-cert-1",
       },
       {
-        chave: "cert-1",
-        nome_experiencia: "Certificado AWS Cloud Practitioner",
-        tipo_experiencia: "ADICIONEI",
-        descricao_experiencia: "Certificação fundamental em conceitos de nuvem AWS.",
+        chave: 4,
+        chave_perfil: 1,
+        nome_experiencia: "Teste personalizado",
+        tipo_experiencia: "PERSONALIZADO_ADICIONEI",
+        descricao_experiencia: "Teste personalizado",
         periodo_inicio: "2023-05-01",
         periodo_fim: "",
         em_curso: false,
@@ -58,5 +64,5 @@ export const defaultData = {
         nome_instituicao: "Amazon Web Services",
         chave_instituicao: "aws-cert-1",
       },
-    ],
+    ] as Experiencia[]
 }
