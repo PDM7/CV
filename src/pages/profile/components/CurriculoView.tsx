@@ -193,20 +193,13 @@ export default function CurriculoView() {
             ([tipo, experiencias], groupIndex) => (
               <div key={groupIndex} className="mb-6">
                 <h2 className="text-xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2 mb-3">
-                  {tipo === "EXPERIENCIA"
-                    ? "Experiência Profissional"
-                    : tipo === "CERTIFICADO"
-                    ? "Formações Acadêmicas"
-                    : experiencias[0].nome_experiencia}
+                  {tipo.replace(/_/g, " ")}
                 </h2>
                 <div className="space-y-4">
                   {experiencias.map((exp, idx) => (
                     <div key={idx}>{renderExperiencia(exp)}</div>
                   ))}
                 </div>
-                {groupIndex < Object.keys(experienciasAgrupadas).length - 1 && (
-                  <hr className="my-6 border-gray-200" />
-                )}
               </div>
             )
           )}

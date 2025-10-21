@@ -121,12 +121,7 @@ export default function ExperienciasCertificadosSection() {
         onClick={() =>
           handleAddExperiencia(
             type,
-            `${
-              type === "CERTIFICADO"
-                ? "Novo certificado"
-                : type === "EXPERIENCIA"
-                ? "Nova experiência"
-                : type.replace(/_/g, " ")
+            `${type.replace(/_/g, " ")
             }`
           )
         }
@@ -182,14 +177,14 @@ export default function ExperienciasCertificadosSection() {
 
       {renderExperienceSection(
         "Experiências Profissionais",
-        "EXPERIENCIA",
+        "EXPERIÊNCIAS_PROFISSIONAIS",
         experienciasAgrupadas["EXPERIENCIA"] || []
       )}
 
       <hr className="my-6" />
       {renderExperienceSection(
         "Formações Acadêmicas",
-        "CERTIFICADO",
+        "FORMAÇÕES_ACADÊMICAS",
         experienciasAgrupadas["CERTIFICADO"] || []
       )}
       <hr className="my-6" />
