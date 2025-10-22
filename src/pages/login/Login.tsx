@@ -1,4 +1,5 @@
-import React, { useState, useContext, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useContext  } from 'react';
+import type  { ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StoreContext from './../../Store/Context';
 import './Login.css';
