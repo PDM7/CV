@@ -10,6 +10,8 @@ export default function Router() {
       <Route path="/painel" element={<PainelPage />} />
       <Route path="/perfil" element={<PerfilPage />} />
       <Route path="/login" element={<TelaLogin />} />
+      <Route path="/duda" element={<TelaLogin />} />
+
     </Routes>
   );
 }
