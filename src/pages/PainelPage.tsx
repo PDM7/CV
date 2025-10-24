@@ -57,7 +57,12 @@ const navigate = useNavigate();
       title: "Perfil",
       text: "PERFIL",
       route: "/perfil",
+
     },
+    {id: 5,
+      title: "Login",
+      text: "LOGIN",
+      route: "/login",}
   ];
   const handleClick = (route: string) => {
     navigate(route);

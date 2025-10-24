@@ -17,6 +17,9 @@ function login({ usuario, senha }: LoginData) {
   if (usuario === 'Demonstração' && senha === '12345678') {
     return { token: 'AUTORIZADO: 07a2db95' };
   }
+  if (usuario === 'Duda' && senha === '12345') {
+    return { token: 'AUTORIZADO: 07a2db95' };
+  }
   return { erro: 'Usuário ou senha inválido' };
 }
 
