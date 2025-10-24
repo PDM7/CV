@@ -1,18 +1,19 @@
-import React, { useState, useRef } from "react";
-import ExperienciaGenericaItem from "./ExperienciaGenericaItem";
-import type {
-  Experiencia,
-  NovaExperiencia,
-  BaseExperiencia,
-} from "../../../types/profile";
-
+import { useState, useRef } from "react";
+import Experiencia from "./Experiencia";
+// import SecoesCustom from "./SecoesCustom";
+import type { NovaExperiencia, BaseExperiencia } from "../../../types/profile";
 import { useUser } from "../../../contexts/UserContext";
 
 export default function ExperienciasCertificadosSection() {
   const { perfil, setPerfil } = useUser();
-  const [newCustomSectionName, setNewCustomSectionName] = useState("");
-  const [showNewCustomSectionInput, setShowNewCustomSectionInput] =
-    useState(false);
+
+
+  const [gruposPadrao] = useState([
+    "EXPERIÊNCIAS_PROFISSIONAIS",
+    "CERTIFICADOS_ACADÊMICOS",
+    "IDIOMAS",
+    "HACKATONS",
+  ]);
 
   const tempIdCounter = useRef(0);
 
@@ -21,14 +22,13 @@ export default function ExperienciasCertificadosSection() {
     field: K,
     value: BaseExperiencia[K]
   ) => {
-    const novasExp = perfil.experiencias.map((exp) => {
-      const expId = "chave" in exp ? exp.chave : exp.tempId;
-      if (expId === id) {
-        return { ...exp, [field]: value };
-      }
-      return exp;
-    });
-    setPerfil({ ...perfil, experiencias: novasExp });
+    setPerfil((prev) => ({
+      ...prev,
+      experiencias: prev.experiencias.map((exp) => {
+        const expId = "chave" in exp ? exp.chave : exp.tempId;
+        return expId === id ? { ...exp, [field]: value } : exp;
+      }),
+    }));
   };
 
   const handleAddExperiencia = (tipo: string, nomePadrao: string) => {
@@ -46,33 +46,7 @@ export default function ExperienciasCertificadosSection() {
       nome_instituicao: "",
       chave_instituicao: nomePadrao.toLowerCase().trim().replace(/\s+/g, "-"),
     };
-
-    setPerfil({
-      ...perfil,
-      experiencias: [...perfil.experiencias, novaExp],
-    });
-  };
-
-  const handleCreateCustomSection = () => {
-    const nomeTrim = newCustomSectionName.trim();
-    if (!nomeTrim) {
-      alert("Por favor, insira um nome para a nova seção personalizada.");
-      return;
-    }
-
-    const tipoPersonalizado = nomeTrim.replace(/\s+/g, "_");
-
-    const existe = perfil.experiencias.some(
-      (exp) => exp.tipo_experiencia === tipoPersonalizado
-    );
-    if (existe) {
-      alert("Já existe uma seção com esse nome.");
-      return;
-    }
-
-    handleAddExperiencia(tipoPersonalizado, nomeTrim);
-    setNewCustomSectionName("");
-    setShowNewCustomSectionInput(false);
+    setPerfil({ ...perfil, experiencias: [...perfil.experiencias, novaExp] });
   };
 
   const handleRemoveExp = (idToRemove: number | string) => {
@@ -84,136 +58,67 @@ export default function ExperienciasCertificadosSection() {
     setPerfil({ ...perfil, experiencias: novasExp });
   };
 
-  const experienciasAgrupadas = perfil.experiencias.reduce(
-    (acc: { [key: string]: (Experiencia | NovaExperiencia)[] }, exp) => {
-      const tipo = exp.tipo_experiencia || "Outros";
-      if (!acc[tipo]) acc[tipo] = [];
-      acc[tipo].push(exp);
-      return acc;
-    },
-    {}
-  );
 
-  const renderExperienceSection = (
-    title: string,
-    type: string,
-    experiences: (Experiencia | NovaExperiencia)[]
-  ) => (
-    <div className="mb-6 p-4 border rounded-lg bg-base-100 shadow-sm">
-      <h4 className="text-lg font-medium mb-3">{title}</h4>
-      <div className="space-y-4">
-        {experiences.map((exp, index) => {
-          const expId =
-            "chave" in exp && exp.chave != null ? exp.chave : exp.tempId;
-          return (
-            <ExperienciaGenericaItem
-              key={`section-${type}-${expId}-${index}`}
-              experiencia={exp}
-              index={expId}
-              onExpChange={handleExpChange}
-              onRemove={() => handleRemoveExp(expId)}
-            />
-          );
-        })}
-      </div>
-      <button
-        className="btn btn-outline btn-sm mt-4"
-        onClick={() =>
-          handleAddExperiencia(
-            type,
-            `${type.replace(/_/g, " ")
-            }`
-          )
-        }
-      >
-        ➕ Adicionar {title.replace(/s$/, "")}
-      </button>
-    </div>
-  );
 
-  const renderCustomSectionCreator = () => (
-    <div className="mb-6 p-4 border rounded-lg bg-base-100 shadow-sm">
-      <h4 className="text-lg font-medium mb-3">
-        Criar Nova Seção Personalizada
-      </h4>
-      {!showNewCustomSectionInput ? (
-        <button
-          className="btn btn-outline btn-sm"
-          onClick={() => setShowNewCustomSectionInput(true)}
-        >
-          ➕ Criar Nova Seção
-        </button>
-      ) : (
-        <div className="flex gap-2">
-          <input
-            type="text"
-            className="input input-bordered flex-grow"
-            placeholder="Nome da nova seção (ex: Habilidades, Projetos)"
-            value={newCustomSectionName}
-            onChange={(e) => setNewCustomSectionName(e.target.value)}
-          />
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={handleCreateCustomSection}
-          >
-            Criar
-          </button>
-          <button
-            className="btn btn-ghost btn-sm"
-            onClick={() => setShowNewCustomSectionInput(false)}
-          >
-            Cancelar
-          </button>
-        </div>
-      )}
-    </div>
-  );
+
+  const experiencias = [
+    ...gruposPadrao,
+    ...perfil.experiencias
+      .map((xp) => xp.tipo_experiencia)
+      .filter((tipo) => !gruposPadrao.includes(tipo)),
+  ].map((grupo) => {
+    const nomeGrupo = grupo.replace("_", " ");
+    return {
+      grupo: nomeGrupo,
+      lista: perfil.experiencias.filter((xp) => xp.tipo_experiencia === grupo),
+    };
+  });
+
+
+  // const handleNovaSecaoAdicionada = (tipoPersonalizado: string) => {
+  //   setNovoGrupo((prevGrupos) => [...prevGrupos, tipoPersonalizado]);
+  // };
 
   return (
     <div className="mb-6">
-      <h3 className="text-xl font-semibold mb-3">
-        Gerenciar Experiências e Seções
-      </h3>
+      <h3 className="text-xl font-semibold mb-3">Gerenciar Experiências</h3>
 
-      {renderExperienceSection(
-        "Experiências Profissionais",
-        "EXPERIÊNCIAS_PROFISSIONAIS",
-        experienciasAgrupadas["EXPERIENCIA"] || []
-      )}
+      {experiencias.map((secao) => (
+        <div
+          key={secao.grupo}
+          className="mb-6 p-4 border rounded-lg bg-base-100 shadow-sm"
+        >
+          <h4 className="text-lg font-medium mb-3">{secao.grupo}</h4>
 
-      <hr className="my-6" />
-      {renderExperienceSection(
-        "Formações Acadêmicas",
-        "FORMAÇÕES_ACADÊMICAS",
-        experienciasAgrupadas["CERTIFICADO"] || []
-      )}
-      <hr className="my-6" />
+          {secao.lista.map((exp) => {
+            const expId = "chave" in exp ? exp.chave : exp.tempId;
 
-      {Object.entries(experienciasAgrupadas)
-        .filter(([type]) => type !== "EXPERIENCIA" && type !== "CERTIFICADO")
-        .map(([type, experiences], index) => {
-          const firstExp = experiences[0];
-          const expId =
-            "chave" in firstExp && firstExp.chave != null
-              ? firstExp.chave
-              : firstExp.tempId;
-          return (
-            <React.Fragment key={"section-" + type + "-" + expId}>
-              {renderExperienceSection(
-                type.replace(/_/g, " "),
-                type,
-                experiences
-              )}
-              {index <
-                Object.entries(experienciasAgrupadas).filter(
-                  ([t]) => t !== "EXPERIENCIA" && t !== "CERTIFICADO"
-                ).length -
-                  1 && <hr className="my-6" />}
-            </React.Fragment>
-          );
-        })}
+            return (
+              <Experiencia
+                index={expId}
+                experiencia={exp}
+                onChange={handleExpChange}
+                onRemove={handleRemoveExp}
+              />
+            );
+          })}
 
-      {renderCustomSectionCreator()}
+          <button
+            className="btn btn-outline btn-sm mt-4"
+            onClick={() =>
+              handleAddExperiencia(secao.grupo, `Nova ${secao.grupo}`)
+            }
+          >
+            ➕ Adicionar {secao.grupo}
+          </button>
+        </div>
+	      ))}
+	
+	      {/* <SecoesCustom
+	        onCriarNovaSecao={handleNovaSecaoAdicionada}
+	        onAddExperiencia={handleAddExperiencia}
+	        gruposExistentes={gruposPadrao}
+	      /> */}
     </div>
   );
 }

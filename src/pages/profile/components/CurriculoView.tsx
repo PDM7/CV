@@ -45,45 +45,7 @@ export default function CurriculoView() {
     return `${inicioFormatado} - ${fimFormatado}`;
   };
 
-  const renderExperiencia = (exp: BaseExperiencia) => {
-    return (
-      <div className="border-blue-500 pl-4 mb-4">
-        <div className="flex justify-between items-start mb-1">
-          <h3 className="text-lg font-semibold text-gray-800">
-            {exp.nome_experiencia}
-          </h3>
-          {(exp.periodo_inicio || exp.periodo_fim) && (
-            <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
-              {formatarPeriodo(
-                exp.periodo_inicio,
-                exp.periodo_fim,
-                exp.em_curso
-              )}
-            </span>
-          )}
-        </div>
-        <p className="text-gray-700 font-medium mb-1">{exp.nome_instituicao}</p>
-        <p className="text-gray-600 mb-2">{exp.descricao_experiencia}</p>
-        {exp.hashtags.trim() && exp.hashtags.split(" ").length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-2">
-            {exp.hashtags
-              .split(" ")
-              .filter((tag) => tag.trim() !== "")
-              .map((tag, tagIndex) => (
-                <span
-                  key={tagIndex}
-                  className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded"
-                >
-                  {tag}
-                </span>
-              ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const experienciasAgrupadas = perfil.experiencias.reduce(
+  const grupos = perfil.experiencias.reduce(
     (acc: { [key: string]: BaseExperiencia[] }, exp) => {
       const tipo = exp.tipo_experiencia || "Outros";
       if (!acc[tipo]) acc[tipo] = [];
@@ -188,21 +150,58 @@ export default function CurriculoView() {
             </div>
           )}
 
-          {/* Renderizar seções de experiências dinamicamente */}
-          {Object.entries(experienciasAgrupadas).map(
-            ([tipo, experiencias], groupIndex) => (
-              <div key={groupIndex} className="mb-6">
-                <h2 className="text-xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2 mb-3">
-                  {tipo.replace(/_/g, " ")}
-                </h2>
-                <div className="space-y-4">
-                  {experiencias.map((exp, idx) => (
-                    <div key={idx}>{renderExperiencia(exp)}</div>
-                  ))}
+          {/* Renderizar seções de experiências */}
+          {Object.entries(grupos).map(([tipo, experiencias]) => (
+            <div key={tipo} className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2 mb-3">
+                {tipo.replace(/_/g, " ")}
+              </h2>
+
+              {experiencias.map((exp, idx) => (
+                <div key={idx} className="border-blue-500 pl-4 mb-4">
+                  <div className="flex justify-between items-start mb-1">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {exp.nome_experiencia}
+                    </h3>
+                    {(exp.periodo_inicio || exp.periodo_fim) && (
+                      <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                        {formatarPeriodo(
+                          exp.periodo_inicio,
+                          exp.periodo_fim,
+                          exp.em_curso
+                        )}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-gray-700 font-medium mb-1">
+                    {exp.nome_instituicao}
+                  </p>
+                  <p className="text-gray-600 mb-2">
+                    {exp.descricao_experiencia}
+                  </p>
+
+                  {exp.hashtags.trim() && (
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {exp.hashtags
+                        .split(" ")
+                        .filter((tag) => tag.trim())
+                        .map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                    </div>
+                  )}
                 </div>
-              </div>
-            )
-          )}
+              ))}
+            </div>
+          ))}
+
+
         </div>
       </div>
     </div>

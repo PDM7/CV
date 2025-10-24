@@ -42,7 +42,7 @@ export const defaultData: Perfil = {
         chave: 3,
         chave_perfil: 1,
         nome_experiencia: "Certificado AWS Cloud Practitioner",
-        tipo_experiencia: "CERTIFICADOS ACADÊMICOS",
+        tipo_experiencia: "CERTIFICADOS_ACADÊMICOS",
         descricao_experiencia: "Certificação fundamental em conceitos de nuvem AWS.",
         periodo_inicio: "2023-05-01",
         periodo_fim: "",
@@ -50,19 +50,6 @@ export const defaultData: Perfil = {
         hashtags: "aws cloud certificacao",
         nome_instituicao: "Amazon Web Services",
         chave_instituicao: "aws-cert-1",
-      },
-      {
-        chave: 4,
-        chave_perfil: 1,
-        nome_experiencia: "Teste personalizado",
-        tipo_experiencia: "PERSONALIZADO_ADICIONEI",
-        descricao_experiencia: "Teste personalizado",
-        periodo_inicio: "2023-05-01",
-        periodo_fim: "",
-        em_curso: false,
-        hashtags: "aws cloud certificacao",
-        nome_instituicao: "Amazon Web Services",
-        chave_instituicao: "aws-cert-1",
-      },
+      }
     ] as Experiencia[]
 }
