@@ -1,4 +1,4 @@
-import type { BaseExperiencia, Experiencia as ExpT, NovaExperiencia } from "../../../types/profile";
+import type { BaseExperiencia, Experiencia as ExpT, NovaExperiencia } from "../../../types/perfil";
 
 interface ExperienciaProps {
   experiencia: ExpT | NovaExperiencia;
@@ -28,15 +28,36 @@ export default function Experiencia({ experiencia, index, onChange, onRemove }: 
         <input
           type="date"
           className="input input-bordered"
-          value={experiencia.periodo_inicio || ""}
-          onChange={(e) => onChange(index, "periodo_inicio", e.target.value)}
+          value={
+              experiencia.periodo_inicio
+                ? new Date(experiencia.periodo_inicio).toISOString().split("T")[0]
+                : ""
+          }
+          onChange={(e) =>
+            onChange(
+              index,
+              "periodo_inicio",
+              e.target.value ? new Date(e.target.value) : null
+            )
+          }
         />
         <input
           type="date"
           className="input input-bordered"
-          value={experiencia.periodo_fim || ""}
-          onChange={(e) => onChange(index, "periodo_fim", e.target.value)}
-          disabled={experiencia.em_curso}
+          value={
+              experiencia.periodo_fim
+                ? new Date(experiencia.periodo_fim).toISOString().split("T")[0]
+                : ""
+          }
+          onChange={(e) =>
+            onChange(
+              index,
+              "periodo_fim",
+              e.target.value ? new Date(e.target.value) : null
+            )
+          }
+          
+          disabled={experiencia.em_curso || false}
         />
         <label className="flex items-center gap-2 mt-2">
           <input

@@ -18,10 +18,10 @@ export interface BaseExperiencia{
   tipo_experiencia: string;
   nome_experiencia: string;
   descricao_experiencia: string;
-  periodo_inicio: string;
-  periodo_fim?: string;
-  em_curso: boolean;
-  hashtags: string;
+  periodo_inicio: Date | null;
+  periodo_fim?: Date | null;
+  em_curso: boolean | null;
+  hashtags: string | null;
   nome_instituicao: string;
   chave_instituicao: string;
 }

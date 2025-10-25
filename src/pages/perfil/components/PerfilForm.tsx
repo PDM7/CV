@@ -2,12 +2,30 @@ import type { ChangeEvent } from "react";
 import CamposSection from "./CamposSection";
 import Sections from "./Sections";
 import { useUser } from "../../../contexts/UserContext";
+
 export default function PerfilForm() {
-  const { perfil, setPerfil, savePerfil } = useUser();
+  const { perfil, setPerfil, login } = useUser();
+
   const handlePerfilChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setPerfil((prev) => ({ ...prev, [name]: value }));
+    setPerfil((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        [name]: value,
+        campos: prev.campos ?? [],
+        experiencias: prev.experiencias ?? [],
+      };
+    });
   };
+
+  // expose for testing only
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).loginUser = login;
+
+  if (!perfil) {
+    return <div className="text-md font-semibold ml-20">Carregando...</div>;
+  }
 
   return (
     <div className="p-8 bg-base-200 rounded-2xl shadow-lg m-5 curriculo-a4 max-w-6xl mx-auto my-8 ">
@@ -54,15 +72,13 @@ export default function PerfilForm() {
       </div>
 
       <CamposSection />
-
       <Sections />
 
       <div className="mt-6">
-        <button className="btn btn-primary" onClick={savePerfil}>
+        <button className="btn btn-primary" onClick={() => setPerfil(perfil)}>
           💾 Salvar Perfil
         </button>
       </div>
     </div>
   );
 }
-

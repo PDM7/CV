@@ -1,4 +1,4 @@
-import type { Campo, NovoCampo } from "../../../types/profile";
+import type { Campo, NovoCampo } from "../../../types/perfil";
 import { useRef } from "react";
 import { useUser } from "../../../contexts/UserContext";
 
@@ -6,6 +6,9 @@ import { useUser } from "../../../contexts/UserContext";
 export default function CamposSection() {
   const tempIdCounter = useRef(0);
   const { perfil, setPerfil } = useUser();
+  
+  
+  if (!perfil) return <div className="text-md font-semibold ml-20">Carregando...</div>;
 
     const handleCampoChange = (
     id: number | string,
@@ -50,7 +53,7 @@ export default function CamposSection() {
   return (
     <div className="mb-6">
       <h3 className="text-xl font-semibold mb-3">Campos Personalizados</h3>
-      {perfil.campos.map((campo) => {
+      {perfil.campos?.map((campo) => {
         const campoId = "chave" in campo ? campo.chave : campo.tempId; return (
                 <div key={campoId} className="flex gap-2 mb-2">
           <input

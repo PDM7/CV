@@ -1,7 +1,7 @@
 import PerfilForm from "./components/PerfilForm";
 import { useState } from "react";
 import CurriculoView from "./components/CurriculoView";
-import Navbar from "../../components/Header";
+import Navbar from "../../components/Navbar";
 
 export default function PerfilPage() {
 

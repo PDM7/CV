@@ -1,15 +1,16 @@
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { useUser } from "../../../contexts/UserContext";
-import type { BaseExperiencia } from "../../../types/profile";
+import type { BaseExperiencia } from "../../../types/perfil";
 
 export default function CurriculoView() {
   const { perfil } = useUser();
+
   const componentRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `Curriculo_${perfil.nome.replace(/\s+/g, "_")}`,
+    documentTitle: `Curriculo_${perfil?.nome?.replace(/\s+/g, "_") ?? "Usuario"}`,
     pageStyle: `
         @page {
         size: A4;
@@ -28,6 +29,8 @@ export default function CurriculoView() {
         }
     `,
   });
+
+  if (!perfil) return <div className="text-md font-semibold ml-20">Carregando...</div>;
 
   const formatarData = (data: string) => {
     if (!data) return "";

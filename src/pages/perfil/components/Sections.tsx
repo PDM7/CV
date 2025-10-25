@@ -1,34 +1,39 @@
 import { useState, useRef } from "react";
 import Experiencia from "./Experiencia";
-// import SecoesCustom from "./SecoesCustom";
-import type { NovaExperiencia, BaseExperiencia } from "../../../types/profile";
+import type { NovaExperiencia, BaseExperiencia } from "../../../types/perfil";
 import { useUser } from "../../../contexts/UserContext";
 
 export default function ExperienciasCertificadosSection() {
   const { perfil, setPerfil } = useUser();
 
-
   const [gruposPadrao] = useState([
-    "EXPERIÊNCIAS_PROFISSIONAIS",
-    "CERTIFICADOS_ACADÊMICOS",
-    "IDIOMAS",
-    "HACKATONS",
+    "Formação Acadêmica",
+    "Experiência Profissional",
+    "Estágio",
+    "Certificados",
+    "Idiomas",
+    "Hackatons",
   ]);
 
   const tempIdCounter = useRef(0);
+
+  if (!perfil) return null;  
 
   const handleExpChange = <K extends keyof BaseExperiencia>(
     id: number | string,
     field: K,
     value: BaseExperiencia[K]
   ) => {
-    setPerfil((prev) => ({
-      ...prev,
-      experiencias: prev.experiencias.map((exp) => {
-        const expId = "chave" in exp ? exp.chave : exp.tempId;
-        return expId === id ? { ...exp, [field]: value } : exp;
-      }),
-    }));
+    setPerfil((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        experiencias: prev.experiencias.map((exp) => {
+          const expId = "chave" in exp ? exp.chave : exp.tempId;
+          return expId === id ? { ...exp, [field]: value } : exp;
+        }),
+      };
+    });
   };
 
   const handleAddExperiencia = (tipo: string, nomePadrao: string) => {
@@ -46,38 +51,41 @@ export default function ExperienciasCertificadosSection() {
       nome_instituicao: "",
       chave_instituicao: nomePadrao.toLowerCase().trim().replace(/\s+/g, "-"),
     };
-    setPerfil({ ...perfil, experiencias: [...perfil.experiencias, novaExp] });
+
+    setPerfil((prev) => {
+      if (!prev) return prev;
+      return { ...prev, experiencias: [...prev.experiencias, novaExp] };
+    });
   };
 
   const handleRemoveExp = (idToRemove: number | string) => {
-    const novasExp = perfil.experiencias.filter(
-      (exp) =>
-        ("chave" in exp && exp.chave !== idToRemove) ||
-        ("tempId" in exp && exp.tempId !== idToRemove)
-    );
-    setPerfil({ ...perfil, experiencias: novasExp });
+    setPerfil((prev) => {
+      if (!prev) return prev;
+      const novasExp = prev.experiencias.filter(
+        (exp) =>
+          ("chave" in exp && exp.chave !== idToRemove) ||
+          ("tempId" in exp && exp.tempId !== idToRemove)
+      );
+      return { ...prev, experiencias: novasExp };
+    });
   };
 
-
-
+  const experiencia_array = perfil.experiencias ?? [];
 
   const experiencias = [
     ...gruposPadrao,
-    ...perfil.experiencias
+    ...experiencia_array
       .map((xp) => xp.tipo_experiencia)
       .filter((tipo) => !gruposPadrao.includes(tipo)),
   ].map((grupo) => {
-    const nomeGrupo = grupo.replace("_", " ");
+    const nomeGrupo = grupo.replace(/_/g, " ");
     return {
       grupo: nomeGrupo,
-      lista: perfil.experiencias.filter((xp) => xp.tipo_experiencia === grupo),
+      lista: experiencia_array.filter(
+        (xp) => xp.tipo_experiencia === grupo
+      ),
     };
   });
-
-
-  // const handleNovaSecaoAdicionada = (tipoPersonalizado: string) => {
-  //   setNovoGrupo((prevGrupos) => [...prevGrupos, tipoPersonalizado]);
-  // };
 
   return (
     <div className="mb-6">
@@ -95,6 +103,7 @@ export default function ExperienciasCertificadosSection() {
 
             return (
               <Experiencia
+                key={expId}
                 index={expId}
                 experiencia={exp}
                 onChange={handleExpChange}
@@ -112,13 +121,7 @@ export default function ExperienciasCertificadosSection() {
             ➕ Adicionar {secao.grupo}
           </button>
         </div>
-	      ))}
-	
-	      {/* <SecoesCustom
-	        onCriarNovaSecao={handleNovaSecaoAdicionada}
-	        onAddExperiencia={handleAddExperiencia}
-	        gruposExistentes={gruposPadrao}
-	      /> */}
+      ))}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import Navbar from "../components/Header";
+import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 interface CardProps {
   title: string;
@@ -79,7 +79,7 @@ const navigate = useNavigate();
     </div>
   );
 }
-export function PainelPage() {
+export function ModelosPage() {
   return (
     <main className="min-h-screen bg-base-300">
       <Navbar />
@@ -87,4 +87,4 @@ export function PainelPage() {
     </main>
   );
 }
-export default PainelPage;
+export default ModelosPage;
