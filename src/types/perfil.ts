@@ -43,4 +43,3 @@ export interface Perfil {
   campos: (Campo | NovoCampo)[];
   experiencias: (Experiencia | NovaExperiencia)[];
 }
-

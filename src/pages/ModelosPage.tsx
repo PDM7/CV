@@ -8,10 +8,8 @@ interface CardProps {
 export function Filtros() {
   return (
     <div>
-      Filtra por
-      <button>Habilidade</button>
-      <button>Empresa</button>
-      </div>
+
+    </div>
   );
 }
 export function Card({ title, text, onClick }: CardProps)  {
@@ -58,6 +56,12 @@ const navigate = useNavigate();
       text: "PERFIL",
       route: "/perfil",
     },
+    {
+      id: 5,
+      title: "Login",
+      text: "LOGIN",
+      route: "/login",
+    }
   ];
   const handleClick = (route: string) => {
     navigate(route);

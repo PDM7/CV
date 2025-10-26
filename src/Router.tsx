@@ -3,6 +3,7 @@ import IndexPage from "./IndexPage";
 import ModelosPage from "./pages/ModelosPage";
 import PerfilPage from "./pages/perfil/PerfilPage";
 import { UserProvider } from "./contexts/UserContext";
+import TelaLogin from "./pages/login/Login";
 export default function Router() {
   return (
     <UserProvider>
@@ -10,6 +11,7 @@ export default function Router() {
         <Route path="/" element={<IndexPage />} />
         <Route path="/modelos" element={<ModelosPage />} />
         <Route path="/perfil" element={<PerfilPage />} />
+        <Route path="/login" element={<TelaLogin />} />
       </Routes>
     </UserProvider>
   );

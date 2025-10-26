@@ -169,9 +169,9 @@ export default function CurriculoView() {
                     {(exp.periodo_inicio || exp.periodo_fim) && (
                       <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
                         {formatarPeriodo(
-                          exp.periodo_inicio,
-                          exp.periodo_fim,
-                          exp.em_curso
+                          exp.periodo_inicio ? new Date(exp.periodo_inicio).toISOString() : "",
+                          exp.periodo_fim ? new Date(exp.periodo_fim).toISOString() : "",
+                          !!exp.em_curso
                         )}
                       </span>
                     )}
@@ -184,9 +184,9 @@ export default function CurriculoView() {
                     {exp.descricao_experiencia}
                   </p>
 
-                  {exp.hashtags.trim() && (
+                  {exp.hashtags?.trim() && (
                     <div className="flex flex-wrap gap-1 mb-2">
-                      {exp.hashtags
+                      {exp.hashtags!
                         .split(" ")
                         .filter((tag) => tag.trim())
                         .map((tag, tagIndex) => (
