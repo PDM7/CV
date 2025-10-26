@@ -4,7 +4,7 @@ import type { NovaExperiencia, BaseExperiencia } from "../../../types/perfil";
 import { useUser } from "../../../contexts/UserContext";
 
 export default function ExperienciasCertificadosSection() {
-  const { perfil, setPerfil } = useUser();
+  const { perfil, atualizarPerfil } = useUser();
 
   const [gruposPadrao] = useState([
     "Formação Acadêmica",
@@ -24,16 +24,16 @@ export default function ExperienciasCertificadosSection() {
     field: K,
     value: BaseExperiencia[K]
   ) => {
-    setPerfil((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        experiencias: prev.experiencias.map((exp) => {
-          const expId = "chave" in exp ? exp.chave : exp.tempId;
-          return expId === id ? { ...exp, [field]: value } : exp;
-        }),
-      };
-    });
+    if (!perfil) return;
+    
+    const novasExperiencias = perfil.experiencias.map((exp) => {
+    const expId = "chave" in exp ? exp.chave : exp.tempId;
+    return expId === id ? { ...exp, [field]: value } : exp;
+  });
+
+    atualizarPerfil( 
+      { ...perfil, experiencias: novasExperiencias }
+    );
   };
 
   const handleAddExperiencia = (tipo: string, nomePadrao: string) => {
@@ -44,30 +44,28 @@ export default function ExperienciasCertificadosSection() {
       nome_experiencia: nomePadrao,
       tipo_experiencia: tipo,
       descricao_experiencia: "",
-      periodo_inicio: "",
-      periodo_fim: "",
+      periodo_inicio: null,
+      periodo_fim: null,
       em_curso: false,
       hashtags: "",
       nome_instituicao: "",
       chave_instituicao: nomePadrao.toLowerCase().trim().replace(/\s+/g, "-"),
     };
-
-    setPerfil((prev) => {
-      if (!prev) return prev;
-      return { ...prev, experiencias: [...prev.experiencias, novaExp] };
+    if (!perfil) return;
+    atualizarPerfil({      
+       ...perfil, experiencias: [...perfil.experiencias, novaExp]
     });
   };
 
   const handleRemoveExp = (idToRemove: number | string) => {
-    setPerfil((prev) => {
-      if (!prev) return prev;
-      const novasExp = prev.experiencias.filter(
+    const novasExp = perfil.experiencias.filter(
         (exp) =>
           ("chave" in exp && exp.chave !== idToRemove) ||
           ("tempId" in exp && exp.tempId !== idToRemove)
-      );
-      return { ...prev, experiencias: novasExp };
-    });
+    );
+    if (!perfil) return;
+    atualizarPerfil( { ...perfil, experiencias: novasExp })
+   
   };
 
   const experiencia_array = perfil.experiencias ?? [];

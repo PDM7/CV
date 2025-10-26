@@ -4,18 +4,15 @@ import Sections from "./Sections";
 import { useUser } from "../../../contexts/UserContext";
 
 export default function PerfilForm() {
-  const { perfil, setPerfil, login } = useUser();
+  const { perfil, atualizarPerfil, login } = useUser();
 
   const handlePerfilChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setPerfil((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        [name]: value,
-        campos: prev.campos ?? [],
-        experiencias: prev.experiencias ?? [],
-      };
+    if (!perfil) return;
+
+    atualizarPerfil({
+      ...perfil,
+      [name]: value,
     });
   };
 
@@ -25,7 +22,7 @@ export default function PerfilForm() {
 
   if (!perfil) {
     return <div className="text-md font-semibold ml-20">Carregando...</div>;
-  }
+  } // ✅ agora a função continua, sem fechar com `;` nem outra chave
 
   return (
     <div className="p-8 bg-base-200 rounded-2xl shadow-lg m-5 curriculo-a4 max-w-6xl mx-auto my-8 ">
@@ -75,7 +72,7 @@ export default function PerfilForm() {
       <Sections />
 
       <div className="mt-6">
-        <button className="btn btn-primary" onClick={() => setPerfil(perfil)}>
+        <button className="btn btn-primary" onClick={() => atualizarPerfil(perfil)}>
           💾 Salvar Perfil
         </button>
       </div>

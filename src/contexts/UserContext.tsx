@@ -21,7 +21,7 @@ interface Usuario {
 interface UserContextType {
   usuario: Usuario | null;
   perfil: Perfil | null;
-  setPerfil: React.Dispatch<React.SetStateAction<Perfil | null>>;
+  atualizarPerfil: (perfil: Perfil | null) => Promise<void>;
   login: (login: string, senha: string) => Promise<void>;
   logout: () => void;
 }
@@ -32,6 +32,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [perfil, setPerfil] = useState<Perfil | null>(null);
   const nav = useNavigate();
+  const api_url = import.meta.env.VITE_API_URL;
+
+  const atualizarPerfil = async (novoPerfil: Perfil | null) => {
+    setPerfil(novoPerfil);
+
+    if (novoPerfil) {
+      await fetch(`${api_url}/api/perfil`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novoPerfil),
+      });
+    }
+  };
 
   useEffect(() => {
     const api_url = import.meta.env.VITE_API_URL;
@@ -132,7 +145,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <UserContext.Provider value={{ usuario, perfil, setPerfil, login, logout }}>
+    <UserContext.Provider value={{ usuario, perfil, atualizarPerfil, login, logout }}>
       {children}
     </UserContext.Provider>
   );

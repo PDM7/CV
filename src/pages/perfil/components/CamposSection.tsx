@@ -5,7 +5,7 @@ import { useUser } from "../../../contexts/UserContext";
 
 export default function CamposSection() {
   const tempIdCounter = useRef(0);
-  const { perfil, setPerfil } = useUser();
+  const { perfil, atualizarPerfil } = useUser();
   
   
   if (!perfil) return <div className="text-md font-semibold ml-20">Carregando...</div>;
@@ -22,7 +22,7 @@ export default function CamposSection() {
       }
       return campo;
     });
-    setPerfil({ ...perfil, campos: novosCampos });
+    atualizarPerfil({ ...perfil, campos: novosCampos });
   };
 
 
@@ -35,7 +35,7 @@ export default function CamposSection() {
       tipo_campo: "TEXTO",
       valor_campo: "",
     };
-    setPerfil({
+    atualizarPerfil({
       ...perfil,
       campos: [...perfil.campos, novoCampo],
     });
@@ -47,7 +47,7 @@ export default function CamposSection() {
         ("chave" in campo && campo.chave !== idToRemove) ||
         ("tempId" in campo && campo.tempId !== idToRemove)
     );
-    setPerfil({ ...perfil, campos: novosCampos });
+    atualizarPerfil({ ...perfil, campos: novosCampos });
   };
 
   return (

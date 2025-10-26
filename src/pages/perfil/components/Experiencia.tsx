@@ -12,19 +12,23 @@ export default function Experiencia({ experiencia, index, onChange, onRemove }: 
     <div className="border p-4 rounded-xl mb-4 bg-base-100">
       <h4 className="text-lg font-semibold mb-2">{experiencia.nome_experiencia}</h4>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2 ">
         <input
-          className="input input-bordered"
+          className="input input-bordered col-span-2"
           placeholder="Nome da Experiência"
           value={experiencia.nome_experiencia || ""}
           onChange={(e) => onChange(index, "nome_experiencia", e.target.value)}
         />
-        <input
-          className="input input-bordered"
-          placeholder="Descrição"
-          value={experiencia.descricao_experiencia || ""}
-          onChange={(e) => onChange(index, "descricao_experiencia", e.target.value)}
+
+        <textarea
+            name="resumo"
+            className="textarea textarea-bordered w-full col-span-2"
+            placeholder="Descrição"
+            rows={3}
+            value={ experiencia.descricao_experiencia || "" }
+            onChange={ (e) => onChange(index, "descricao_experiencia", e.target.value) }
         />
+        
         <input
           type="date"
           className="input input-bordered"
@@ -80,6 +84,7 @@ export default function Experiencia({ experiencia, index, onChange, onRemove }: 
           onChange={(e) => onChange(index, "nome_instituicao", e.target.value)}
         />
         <input
+          type="hidden"
           className="input input-bordered"
           placeholder="Chave Instituição"
           value={experiencia.chave_instituicao || ""}
