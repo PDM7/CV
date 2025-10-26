@@ -1,17 +1,18 @@
 import { Routes, Route } from "react-router";
-import IndexPage from "./pages/IndexPage";
-import PainelPage from "./pages/PainelPage";
-import PerfilPage from "./pages/profile/PerfilPage";
+import IndexPage from "./IndexPage";
+import ModelosPage from "./pages/ModelosPage";
+import PerfilPage from "./pages/perfil/PerfilPage";
+import { UserProvider } from "./contexts/UserContext";
 import TelaLogin from "./pages/login/Login";
 export default function Router() {
   return (
-    <Routes>
-      <Route path="/" element={<IndexPage />} />
-      <Route path="/painel" element={<PainelPage />} />
-      <Route path="/perfil" element={<PerfilPage />} />
-      <Route path="/login" element={<TelaLogin />} />
-      <Route path="/duda" element={<TelaLogin />} />
-
-    </Routes>
+    <UserProvider>
+      <Routes>
+        <Route path="/" element={<IndexPage />} />
+        <Route path="/modelos" element={<ModelosPage />} />
+        <Route path="/perfil" element={<PerfilPage />} />
+        <Route path="/login" element={<TelaLogin />} />
+      </Routes>
+    </UserProvider>
   );
 }
