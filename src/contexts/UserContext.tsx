@@ -54,7 +54,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     async function restoreUser() {
       try {
         // 1) buscar dados do usuário
-        const respUsuario = await fetch(`${api_url}/api/acesso/${acesso}`);
+        const respUsuario = await fetch(`${api_url}/api/conta/${acesso}`);
         let dadosUsuario: Usuario;
         if (respUsuario.ok) {
           dadosUsuario = await respUsuario.json();

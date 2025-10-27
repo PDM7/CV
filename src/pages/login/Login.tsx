@@ -2,25 +2,16 @@ import React, { useState, useContext  } from 'react';
 import type  { ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StoreContext from './../../Store/Context';
+import Api from '../../api/Api';
 import './Login.css';
 
 interface LoginData {
-  usuario: string;
+  login: string;
   senha: string;
 }
 
 function loginVazio(): LoginData {
-  return { usuario: 'Demonstração', senha: '12345678' };
-}
-
-function login({ usuario, senha }: LoginData) {
-  if (usuario === 'Demonstração' && senha === '12345678') {
-    return { token: 'AUTORIZADO: 07a2db95' };
-  }
-  if (usuario === 'Duda' && senha === '12345') {
-    return { token: 'AUTORIZADO: 07a2db95' };
-  }
-  return { erro: 'Usuário ou senha inválido' };
+  return { login: 'Demonstração', senha: '12345678' }
 }
 
 const TelaLogin: React.FC = () => {
@@ -34,15 +25,18 @@ const TelaLogin: React.FC = () => {
     setValores({ ...dados_login, [name]: value });
   }
 
-  function enviar(event: FormEvent) {
+  async function enviar(event: FormEvent) {
     event.preventDefault();
-    const { token, erro } = login(dados_login);
+    const { login, senha } = dados_login;
+    const { token, erro } = await Api.login(login, senha);
     if (token) {
+      localStorage.setItem('acesso', token);
       setToken(token);
       return navigate('/');
     }
     setErro(erro || null);
     setValores(loginVazio());
+      localStorage.removeItemItem('acesso');
   }
 
   return (
@@ -69,13 +63,13 @@ const TelaLogin: React.FC = () => {
 
           <form onSubmit={enviar}>
             <div className="user-login__form-control">
-              <label htmlFor="usuario">Login</label>
+              <label htmlFor="login">Login</label>
               <input
-                id="usuario"
+                id="login"
                 type="text"
-                name="usuario"
+                name="login"
                 onChange={onChange}
-                value={dados_login.usuario}
+                value={dados_login.login}
               />
             </div>
 
