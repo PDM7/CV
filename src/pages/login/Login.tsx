@@ -36,7 +36,7 @@ const TelaLogin: React.FC = () => {
     }
     setErro(erro || null);
     setValores(loginVazio());
-      localStorage.removeItemItem('acesso');
+      localStorage.removeItem('acesso');
   }
 
   return (
