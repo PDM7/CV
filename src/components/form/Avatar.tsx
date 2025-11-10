@@ -2,9 +2,13 @@ import { useState, useRef, useEffect } from "react";
 
 interface AvatarUploadProps {
   initialImage?: string;
+  handlePerfilChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function AvatarUpload({ initialImage }: AvatarUploadProps) {
+export function AvatarUpload({
+  initialImage,
+  handlePerfilChange,
+}: AvatarUploadProps) {
   const [image, setImage] = useState<string | null>(initialImage || null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +26,13 @@ export function AvatarUpload({ initialImage }: AvatarUploadProps) {
     e.stopPropagation();
     setImage(null);
     if (inputRef.current) inputRef.current.value = "";
+
+    // Dispara para atualizar o perfil
+    if (handlePerfilChange) {
+      handlePerfilChange({
+        target: { name: "foto", value: "" },
+      } as React.ChangeEvent<HTMLInputElement>);
+    }
   };
 
   return (
@@ -34,7 +45,11 @@ export function AvatarUpload({ initialImage }: AvatarUploadProps) {
               ${image ? "" : "bg-base-200"}`}
           >
             {image ? (
-              <img src={image} alt="avatar" className="w-full h-full object-cover" />
+              <img
+                src={image}
+                alt="avatar"
+                className="w-full h-full object-cover"
+              />
             ) : (
               <span className="text-base-content text-sm">Upload</span>
             )}
@@ -42,7 +57,11 @@ export function AvatarUpload({ initialImage }: AvatarUploadProps) {
           <input
             type="file"
             accept="image/*"
-            onChange={handleChange}
+            name="foto"
+            onChange={(e) => {
+              handleChange(e);
+              handlePerfilChange?.(e);
+            }}
             ref={inputRef}
             className="hidden"
           />
@@ -50,7 +69,9 @@ export function AvatarUpload({ initialImage }: AvatarUploadProps) {
 
         {image && (
           <button
-            onClick={handleRemove}
+            onClick={(e) => {
+              handleRemove(e);
+            }}
             className="absolute top-1 right-1 w-6 h-6 bg-error text-error-content rounded-full 
               flex items-center justify-center text-xs shadow hover:bg-error-focus"
             type="button"

@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import CamposSection from "./CamposSection";
 
 import { useUser } from "../../../contexts/UserContext";
@@ -14,7 +14,8 @@ import { AvatarUpload } from "../../../components/form/Avatar";
 import ExperienciasSection from "./Sections";
 
 export default function PerfilForm() {
-  const { perfil, setPerfil, savePerfil } = useUser();
+  const { perfil, setPerfil, savePerfil, isSaving } = useUser();
+  const [file, setFile] = useState<File | null>(null);
 
   const grupos = [
     "Certificados acadêmicos",
@@ -22,12 +23,30 @@ export default function PerfilForm() {
     "Idiomas",
   ];
 
-  const handlePerfilChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setPerfil((prev) => ({ ...prev, [name]: value }));
+// No componente principal
+  const handlePerfilChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const target = e.target;
+
+    if (target instanceof HTMLInputElement && target.type === "file" && target.files && target.files[0]) {
+      const selectedFile = target.files[0];
+      setFile(selectedFile); // guarda só no estado local
+
+      const fileURL = URL.createObjectURL(selectedFile);
+      setPerfil((prev) => ({
+        ...prev,
+        foto: fileURL, // preview temporário
+      }));
+    } else {
+      const { name, value } = target;
+      setPerfil((prev) => ({ ...prev, [name]: value }));
+    }
   };
+
+  const handleSave = async () => {
+    await savePerfil(file ?? undefined);
+    setFile(null);
+  };
+
 
   return (
      <div className="flex flex-col">
@@ -36,20 +55,21 @@ export default function PerfilForm() {
         <h1 className="text-2xl font-bold">Meu Perfil</h1>
         <button 
           className="btn btn-primary"
-           onClick={savePerfil}>
+           onClick={handleSave}
+           disabled={isSaving} >
           <Save className="w-4 h-4 mr-2" />
-          Salvar Perfil
+            {isSaving ? "Salvando..." : "Salvar Perfil"}
         </button>
       </div>
       <div className="tabs tabs-lift p-6 pt-0">
-        {/* Aba: Dados Pessoais */}
+        {/* Dados Pessoais */}
         <label className="tab">
           <input type="radio" name="profile_tabs" defaultChecked />
           <User className="me-1" /> Dados pessoais
         </label>
         <div className="tab-content bg-base-100 border-base-300 p-6 space-y-6">
           <div className="flex flex-col sm:flex-row gap-6">
-            <AvatarUpload initialImage={perfil.foto} />
+             <AvatarUpload initialImage={perfil.foto} handlePerfilChange={handlePerfilChange} />
 
             <div className="flex flex-col gap-4 flex-1">
               <div className="form-control w-full">

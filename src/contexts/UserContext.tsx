@@ -14,7 +14,8 @@ import Repository from "../bd/Repository";
 interface UserContextType {
   perfil: Perfil;
   setPerfil: Dispatch<SetStateAction<Perfil>>;
-  savePerfil: () => void;
+  savePerfil: (file?: File) => Promise<void>;
+  isSaving: boolean;
   logout: () => void;
 }
 
@@ -26,17 +27,26 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const [perfil, setPerfil] = useState<Perfil>(() => {
     const stored = localStorage.getItem("profile");
-    const initialPerfil = stored ? JSON.parse(stored) : defaultData;
-
-    const perfilAtualizado = repo.saveProfile(initialPerfil);
-
-    return perfilAtualizado;
+    return stored ? JSON.parse(stored) : defaultData;
   });
 
-  const savePerfil = () => {
-    const perfilAtualizado = repo.saveProfile(perfil);
+  const [isSaving, setIsSaving] = useState(false);
 
+  const savePerfil = async (file?: File) => {
+    setIsSaving(true);
+    let fotoURL = perfil.foto;
+
+    if (file) {
+      try {
+        fotoURL = await repo.uploadToImgBB(file);
+      } catch (err) {
+        console.error("Falha ao enviar imagem:", err);
+      }
+    }
+
+    const perfilAtualizado = await repo.saveProfile({ ...perfil, foto: fotoURL });
     setPerfil(perfilAtualizado);
+    setIsSaving(false);
   };
 
   const logout = () => {
@@ -46,7 +56,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ perfil, setPerfil, savePerfil, logout }}>
+    <UserContext.Provider value={{ perfil, setPerfil, savePerfil, isSaving, logout }}>
       {children}
     </UserContext.Provider>
   );
