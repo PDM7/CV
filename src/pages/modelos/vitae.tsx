@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { useUser } from "../../../contexts/UserContext";
-import type { BaseExperiencia } from "../../../types/profile";
+import { useUser } from "../../contexts/UserContext";
+import type { BaseExperiencia } from "../../types/profile";
+import { CurriculumHeader } from "../../components/Header";
 
-export default function CurriculoView() {
+export default function Vitae() {
   const { perfil } = useUser();
   const componentRef = useRef<HTMLDivElement>(null);
 
@@ -57,11 +58,7 @@ export default function CurriculoView() {
 
   return (
     <div>
-      <div className="no-print flex justify-center my-4">
-        <button className="btn btn-info" onClick={handlePrint}>
-          🖨️ Imprimir Currículo
-        </button>
-      </div>
+      <CurriculumHeader onClick={handlePrint} />
 
       <div ref={componentRef}>
         <style>{`
@@ -119,31 +116,32 @@ export default function CurriculoView() {
             )}
           </div>
 
-          {/* Links/Contatos */}
+          {/* Campos */}
           {perfil.campos.length > 0 && (
             <div className="mb-6">
               <div className="flex flex-wrap gap-4">
                 {perfil.campos.map((campo, index) => (
-                  <div key={index} className="flex items-center">
+                  <div key={index} className="flex items-start">
                     <span className="font-medium text-gray-700 mr-2">
                       {campo.nome_campo}:
                     </span>
-                    <span className="text-blue-600 hover:text-blue-800">
-                      {campo.tipo_campo === "URL" ? (
-                        <a
-                          href={campo.valor_campo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 "
-                        >
-                          {campo.valor_campo}
-                        </a>
-                      ) : (
-                        <span className="text-blue-600 hover:text-blue-800">
-                          {campo.valor_campo}
-                        </span>
-                      )}
-                    </span>
+
+                    {campo.tipo_campo === "URL" ? (
+                      <a
+                        href={campo.valor_campo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        {campo.valor_campo}
+                      </a>
+                    ) : campo.tipo_campo === "TEXTO" ? (
+                      <span className="text-gray-600">{campo.valor_campo}</span>
+                    ) : campo.tipo_campo === "TEXTO_LONGO" ? (
+                      <p className="text-gray-600 whitespace-pre-line">
+                        {campo.valor_campo}
+                      </p>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -200,8 +198,6 @@ export default function CurriculoView() {
               ))}
             </div>
           ))}
-
-
         </div>
       </div>
     </div>

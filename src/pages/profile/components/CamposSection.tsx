@@ -1,6 +1,7 @@
 import type { Campo, NovoCampo } from "../../../types/profile";
 import { useRef } from "react";
 import { useUser } from "../../../contexts/UserContext";
+import { Trash2, Plus } from "lucide-react";
 
 
 export default function CamposSection() {
@@ -47,49 +48,68 @@ export default function CamposSection() {
     setPerfil({ ...perfil, campos: novosCampos });
   };
 
-  return (
-    <div className="mb-6">
-      <h3 className="text-xl font-semibold mb-3">Campos Personalizados</h3>
-      {perfil.campos.map((campo) => {
-        const campoId = "chave" in campo ? campo.chave : campo.tempId; return (
-                <div key={campoId} className="flex gap-2 mb-2">
+
+return (
+  <div className="mb-6">
+    <h3 className="text-xl font-semibold mb-3">Campos extras</h3>
+
+    {perfil.campos.map((campo) => {
+      const campoId = "chave" in campo ? campo.chave : campo.tempId;
+
+      return (
+        <div
+          key={campoId}
+          className="flex items-center gap-2 mb-2 p-2 rounded-md"
+        >
           <input
             className="input input-bordered w-1/4"
             placeholder="Nome"
             value={campo.nome_campo}
-                        onChange={(e) =>
+            onChange={(e) =>
               handleCampoChange(campoId, "nome_campo", e.target.value)
             }
           />
           <select
             className="select select-bordered w-1/4"
             value={campo.tipo_campo}
-                        onChange={(e) =>
+            onChange={(e) =>
               handleCampoChange(campoId, "tipo_campo", e.target.value)
             }
           >
-            <option value="TEXTO">TEXTO</option>
-            <option value="NUMERO">NUMERO</option>
-            <option value="DATA">DATA</option>
-            <option value="URL">URL</option>
+            <option value="TEXTO">Texto</option>
+            <option value="TEXTO_LONGO">Texto longo</option>
+            <option value="URL">Link</option>
           </select>
           <input
             className="input input-bordered w-1/2"
             placeholder="Valor"
             value={campo.valor_campo}
-                        onChange={(e) =>
+            onChange={(e) =>
               handleCampoChange(campoId, "valor_campo", e.target.value)
             }
           />
-          <button className="btn btn-error btn-sm"             onClick={() => handleRemoveCampo(campoId)}>
-            ❌
+
+          <button
+            className="btn btn-error btn-sm flex items-center gap-1 hover:brightness-110 transition"
+            onClick={() => handleRemoveCampo(campoId)}
+            title="Remover campo"
+          >
+            <Trash2 size={16} />
+            <span className="hidden sm:inline">Remover</span>
           </button>
         </div>
-      )})}
-      <button className="btn btn-outline btn-sm mt-2" onClick={handleAddCampo}>
-        ➕ Adicionar Campo
-      </button>
-    </div>
-  );
+      );
+    })}
+
+    <button
+      className="btn btn-outline btn-sm mt-2 flex items-center gap-1"
+      onClick={handleAddCampo}
+    >
+      <Plus size={16} />
+      Adicionar Campo
+    </button>
+  </div>
+);
+
 }
 
