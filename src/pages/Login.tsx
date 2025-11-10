@@ -1,6 +1,7 @@
 import { Eye, EyeClosed } from "lucide-react";
 import React, { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface LoginData {
   login: string;
@@ -13,6 +14,8 @@ function loginVazio(): LoginData {
 
 const TelaLogin: React.FC = () => {
   const [dadosLogin, setDadosLogin] = useState<LoginData>(loginVazio);
+
+  const nav = useNavigate();
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -28,10 +31,11 @@ const TelaLogin: React.FC = () => {
     setCarregando(true);
 
     try {
-      if (dadosLogin.login === "demo" && dadosLogin.senha === "12345678") {
+      if (dadosLogin.login === "demo" && dadosLogin.senha === "1234") {
+        nav("/");
         console.log("Login bem-sucedido!");
       } else {
-        setErro("Credenciais inválidas. Use login: 'demo', senha: '12345678'");
+        setErro("Credenciais inválidas. Use login: 'demo', senha: '1234'");
       }
     } catch (e) {
       console.log(e);
@@ -105,8 +109,8 @@ const TelaLogin: React.FC = () => {
           </div>
 
           {/* Criar conta */}
-          <button className="w-full py-3 text-white font-semibold bg-white/20 hover:bg-white/30 rounded-md transition">
-            Criar Nova Conta
+          <button onClick={()=>nav("/cadastrar")} className="w-full py-3 text-white font-semibold bg-white/20 hover:bg-white/30 rounded-md transition cursor-pointer">
+            Criar nova conta
           </button>
         </div>
       </div>
@@ -198,7 +202,7 @@ const TelaLogin: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-4 bg-gradient-to-br from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-gradient-to-br from-indigo-600 to-blue-950 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-blue-950 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={carregando}
             >
               {carregando ? (
@@ -212,7 +216,6 @@ const TelaLogin: React.FC = () => {
             </button>
           </form>
 
-          {/* Seção mobile - Visível apenas em telas pequenas */}
           {/* Seção mobile - Visível apenas em telas pequenas */}
           <div className="lg:hidden space-y-6 mt-8 pt-8 border-t border-gray-200">
             <div className="text-center space-y-4">
@@ -264,8 +267,8 @@ const TelaLogin: React.FC = () => {
               </div>
             </div>
 
-            <button className="w-full py-3 bg-gradient-to-br from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-md">
-              Criar Nova Conta
+            <button onClick={()=>nav("/cadastrar")}  className="w-full py-3 bg-gradient-to-br from-indigo-600 to-blue-950 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-blue-950 transition-all duration-200 shadow-md cursor-pointer">
+              Criar nova conta
             </button>
           </div>
         </div>

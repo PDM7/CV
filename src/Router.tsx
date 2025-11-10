@@ -5,12 +5,14 @@ import { UserProvider } from "./contexts/UserContext";
 import Vitae from "./pages/modelos/vitae";
 import Lattes from "./pages/modelos/lattes";
 import TelaLogin from "./pages/Login";
+import Cadastrar from "./pages/Cadastrar";
 export default function Router() {
   return (
     <UserProvider>
       <Routes>
         <Route path="/" element={<IndexPage />} />
         <Route path="/login" element={<TelaLogin />} />
+        <Route path="/cadastrar" element={<Cadastrar />} />
         <Route path="/vitae" element={<Vitae/>} />
         <Route path="/lattes" element={<Lattes/>} />
         <Route path="/perfil" element={<PerfilPage />} />
