@@ -48,7 +48,7 @@ export default function Navbar() {
     { label: "Item 3", href: "#" },
   ];
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+   <div className="navbar bg-base-100 shadow-sm justify-between lg:justify-normal">
       {/* Desktop */}
       <div className="navbar-start hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -118,6 +118,7 @@ export default function Navbar() {
 
       <div className="navbar-end space-x-5">
         {/* Theme toggle */}
+      
         <label className="swap swap-rotate">
           <input
             type="checkbox"
