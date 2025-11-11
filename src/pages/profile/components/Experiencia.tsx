@@ -22,7 +22,7 @@ export default function Experiencia({
   onRemove,
 }: ExperienciaProps) {
  return (
-  <div className="bg-base-200 rounded-xl p-4 shadow-sm border">
+  <div className="rounded-xl p-4 shadow-sm border">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Nome da Experiência */}
       <label className="block mb-1 text-sm font-medium">
