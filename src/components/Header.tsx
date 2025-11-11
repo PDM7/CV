@@ -9,7 +9,7 @@ type CurriculumHeaderProps = {
 };
 
 export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
-  const { theme, toggleTheme } = useTheme();
+  // const { theme, toggleTheme } = useTheme();
 
   return (
     <nav className="flex items-center justify-between p-3 shadow-md bg-base-200 no-print">
@@ -20,7 +20,7 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
         </a>
       </div>
       <div className="navbar-end space-x-5">
-        <label className="swap swap-rotate">
+        {/* <label className="swap swap-rotate">
           <input
             type="checkbox"
             className="theme-controller"
@@ -29,7 +29,7 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
           />
           <Sun className="swap-off h-8 w-8" />
           <MoonStar className="swap-on h-8 w-8 " />
-        </label>
+        </label> */}
 
         <button type="button" className="btn btn-secondary" onClick={onClick}>
           Exportar
@@ -41,7 +41,7 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
 
 export default function Navbar() {
   const { perfil } = useUser();
-  const { theme, toggleTheme } = useTheme();
+  // const { theme, toggleTheme } = useTheme();
   const nav = useNavigate();
   const { logout } = useUser();
   const avatarSrc = perfil.foto;
@@ -59,7 +59,7 @@ export default function Navbar() {
       <div className="navbar-end space-x-5">
         {/* Theme toggle */}
 
-        <label className="swap swap-rotate">
+        {/* <label className="swap swap-rotate">
           <input
             type="checkbox"
             className="theme-controller"
@@ -70,7 +70,7 @@ export default function Navbar() {
           />
           <Sun className="swap-off h-8 w-8" />
           <MoonStar className="swap-on h-8 w-8 " />
-        </label>
+        </label> */}
 
         {/* Profile */}
         <div className="dropdown dropdown-hover dropdown-end">
