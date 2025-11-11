@@ -62,14 +62,32 @@ export default function PerfilForm() {
       {/* Cabeçalho com botão salvar */}
       <div className="flex justify-between items-center p-6 pb-1">
         <h1 className="text-2xl font-bold">Meu Perfil</h1>
-        <button
-          className="btn btn-primary"
-          onClick={handleSave}
-          disabled={isSaving}
-        >
-          <Save className="w-4 h-4 mr-2" />
-          {isSaving ? "Salvando..." : "Salvar Perfil"}
-        </button>
+        <div className="space-x-3">
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost">
+              <Eye /> Ver modelos
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-48"
+            >
+              <li>
+                <button onClick={() => nav("/lattes")}>Lattes</button>
+              </li>
+              <li>
+                <button onClick={() => nav("/vitae")}>Vitae</button>
+              </li>
+            </ul>
+          </div>
+          <button
+            className="btn btn-primary"
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            <Save className="w-4 h-4 mr-2" />
+            {isSaving ? "Salvando..." : "Salvar Perfil"}
+          </button>
+        </div>
       </div>
       <div className="tabs tabs-lift p-6 pt-0">
         {/* Dados Pessoais */}
@@ -166,7 +184,7 @@ export default function PerfilForm() {
         </div>
       </div>
 
-      {/* Botão flutuante fixo */}
+      {/* Botão flutuante */}
       <div className="fixed bottom-6 right-6">
         <div className="dropdown dropdown-top dropdown-end">
           <label tabIndex={0} className="btn btn-primary btn-circle shadow-lg">
