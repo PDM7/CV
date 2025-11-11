@@ -52,7 +52,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setPerfil(defaultData);
     localStorage.removeItem("profile");
-    nav("/");
+    nav("/login");
   };
 
   return (
