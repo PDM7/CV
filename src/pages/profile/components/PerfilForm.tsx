@@ -58,7 +58,7 @@ export default function PerfilForm() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="container mx-auto flex flex-col">
       {/* Cabeçalho com botão salvar */}
       <div className="flex justify-between items-center p-6 pb-1">
         <h1 className="text-2xl font-bold">Meu Perfil</h1>
