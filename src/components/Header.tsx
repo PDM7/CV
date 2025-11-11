@@ -1,6 +1,6 @@
-import { useTheme } from "../ThemeContext";
+// import { useTheme } from "../ThemeContext";
 import { useState } from "react";
-import { Sun, MoonStar, UserIcon, LogOutIcon, Home } from "lucide-react";
+import { UserIcon, LogOutIcon, Home } from "lucide-react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
