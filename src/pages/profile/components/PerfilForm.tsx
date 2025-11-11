@@ -8,12 +8,15 @@ import {
   Languages,
   ListPlus,
   User,
-  Save
+  Save,
+  Eye,
 } from "lucide-react";
 import { AvatarUpload } from "../../../components/form/Avatar";
 import ExperienciasSection from "./Sections";
+import { useNavigate } from "react-router-dom";
 
 export default function PerfilForm() {
+  const nav = useNavigate();
   const { perfil, setPerfil, savePerfil, isSaving } = useUser();
   const [file, setFile] = useState<File | null>(null);
 
@@ -23,11 +26,18 @@ export default function PerfilForm() {
     "Idiomas",
   ];
 
-// No componente principal
-  const handlePerfilChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // No componente principal
+  const handlePerfilChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const target = e.target;
 
-    if (target instanceof HTMLInputElement && target.type === "file" && target.files && target.files[0]) {
+    if (
+      target instanceof HTMLInputElement &&
+      target.type === "file" &&
+      target.files &&
+      target.files[0]
+    ) {
       const selectedFile = target.files[0];
       setFile(selectedFile); // guarda só no estado local
 
@@ -47,18 +57,18 @@ export default function PerfilForm() {
     setFile(null);
   };
 
-
   return (
-     <div className="flex flex-col">
+    <div className="flex flex-col">
       {/* Cabeçalho com botão salvar */}
       <div className="flex justify-between items-center p-6 pb-1">
         <h1 className="text-2xl font-bold">Meu Perfil</h1>
-        <button 
+        <button
           className="btn btn-primary"
-           onClick={handleSave}
-           disabled={isSaving} >
+          onClick={handleSave}
+          disabled={isSaving}
+        >
           <Save className="w-4 h-4 mr-2" />
-            {isSaving ? "Salvando..." : "Salvar Perfil"}
+          {isSaving ? "Salvando..." : "Salvar Perfil"}
         </button>
       </div>
       <div className="tabs tabs-lift p-6 pt-0">
@@ -69,7 +79,10 @@ export default function PerfilForm() {
         </label>
         <div className="tab-content bg-base-100 border-base-300 p-6 space-y-6">
           <div className="flex flex-col sm:flex-row gap-6">
-             <AvatarUpload initialImage={perfil.foto} handlePerfilChange={handlePerfilChange} />
+            <AvatarUpload
+              initialImage={perfil.foto}
+              handlePerfilChange={handlePerfilChange}
+            />
 
             <div className="flex flex-col gap-4 flex-1">
               <div className="form-control w-full">
@@ -153,8 +166,25 @@ export default function PerfilForm() {
         </div>
       </div>
 
-
+      {/* Botão flutuante fixo */}
+      <div className="fixed bottom-6 right-6">
+        <div className="dropdown dropdown-top dropdown-end">
+          <label tabIndex={0} className="btn btn-primary btn-circle shadow-lg">
+            <Eye />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-48"
+          >
+            <li>
+              <button onClick={() => nav("/lattes")}>Lattes</button>
+            </li>
+            <li>
+              <button onClick={() => nav("/vitae")}>Vitae</button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
-

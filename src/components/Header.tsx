@@ -1,6 +1,6 @@
 // import { useTheme } from "../ThemeContext";
 import { useState } from "react";
-import { UserIcon, LogOutIcon, Home } from "lucide-react";
+import { UserIcon, LogOutIcon, Home, ArrowLeft } from "lucide-react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,7 @@ type CurriculumHeaderProps = {
 };
 
 export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
+  const nav = useNavigate();
   // const { theme, toggleTheme } = useTheme();
 
   return (
@@ -30,8 +31,15 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
           <Sun className="swap-off h-8 w-8" />
           <MoonStar className="swap-on h-8 w-8 " />
         </label> */}
+        <button
+      onClick={() => nav(-1)}
+      className="btn btn-sm md:btn-md btn-ghost gap-2 border border-base-300 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+    >
+      <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+      <span className="font-medium">Voltar</span>
+    </button>
 
-        <button type="button" className="btn btn-secondary" onClick={onClick}>
+        <button type="button" className="btn btn-primary" onClick={onClick}>
           Exportar
         </button>
       </div>
