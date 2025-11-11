@@ -6,7 +6,6 @@ import {
   Briefcase,
   GraduationCap,
   Languages,
-  ListPlus,
   User,
   Save,
   Eye,
@@ -171,7 +170,7 @@ export default function PerfilForm() {
         </div>
 
         {/* Aba: Seções Extras */}
-        <label className="tab">
+        {/* <label className="tab">
           <input type="radio" name="profile_tabs" />
           <ListPlus className="me-1" /> Seções extras
         </label>
@@ -181,7 +180,7 @@ export default function PerfilForm() {
             gruposPadrao={grupos}
             permitirCustomizacao
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Botão flutuante */}
