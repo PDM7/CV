@@ -16,6 +16,7 @@ interface UserContextType {
   setPerfil: Dispatch<SetStateAction<Perfil>>;
   savePerfil: (file?: File) => Promise<void>;
   isSaving: boolean;
+  login: (email: string, senha: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -29,6 +30,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const stored = localStorage.getItem("profile");
     return stored ? JSON.parse(stored) : defaultData;
   });
+
+  const login = async (email: string, senha: string) => {
+    const user = await repo.login(email, senha);
+
+    if (!user) {
+      throw new Error("Credenciais inválidas");
+    }
+
+    setPerfil(user);
+    localStorage.setItem("perfil", JSON.stringify(user));
+    nav("/");
+  };
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -44,7 +57,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    const perfilAtualizado = await repo.saveProfile({ ...perfil, foto: fotoURL });
+    const perfilAtualizado = await repo.saveProfile({
+      ...perfil,
+      foto: fotoURL,
+    });
     setPerfil(perfilAtualizado);
     setIsSaving(false);
   };
@@ -56,7 +72,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ perfil, setPerfil, savePerfil, isSaving, logout }}>
+    <UserContext.Provider
+      value={{ perfil, setPerfil, savePerfil, isSaving, logout, login }}
+    >
       {children}
     </UserContext.Provider>
   );

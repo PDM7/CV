@@ -1,11 +1,23 @@
 import type { Perfil, Experiencia, NovaExperiencia, Campo, NovoCampo } from "../types/profile";
-import { defaultData } from "../default.data";
+import { defaultData, emptyData } from "../default.data";
 
 class Repository {
-  getProfile(): Perfil {
-    return JSON.parse(
-      localStorage.getItem("profile") || JSON.stringify(defaultData)
-    );
+
+  async login(email: string, senha: string): Promise<Perfil | null> {
+    let data: Perfil | null = null;
+
+    if (email === "admin" && senha === "admin") {
+      data = { ...defaultData };
+    } else if (email === "demo" && senha === "1234") {
+      data = { ...emptyData, nome: "Usuário Demo" };
+    }
+
+    if (data) {
+      localStorage.setItem("profile", JSON.stringify(data));
+      return data;
+    }
+
+    return null;
   }
 
  async uploadToImgBB(file: File): Promise<string> {

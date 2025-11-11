@@ -53,3 +53,15 @@ export const defaultData: Perfil = {
       }
     ] as Experiencia[]
 }
+
+export const emptyData: Perfil = {
+    chave: 2,
+    nome: "",
+    telefone: "",
+    foto: "",
+    resumo: "",
+    campos: [
+    ] as Campo[],
+    experiencias: [
+    ] as Experiencia[]
+}

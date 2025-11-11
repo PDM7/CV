@@ -2,6 +2,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import React, { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
 interface LoginData {
   login: string;
@@ -13,6 +14,7 @@ function loginVazio(): LoginData {
 }
 
 const TelaLogin: React.FC = () => {
+  const {login} = useUser();
   const [dadosLogin, setDadosLogin] = useState<LoginData>(loginVazio);
 
   const nav = useNavigate();
@@ -31,15 +33,10 @@ const TelaLogin: React.FC = () => {
     setCarregando(true);
 
     try {
-      if (dadosLogin.login === "demo" && dadosLogin.senha === "1234") {
-        nav("/");
-        console.log("Login bem-sucedido!");
-      } else {
-        setErro("Credenciais inválidas. Use login: 'demo', senha: '1234'");
-      }
+      await login(dadosLogin.login, dadosLogin.senha);
     } catch (e) {
-      console.log(e);
-      setErro("Erro ao fazer login. Tente novamente.");
+      console.error(e);
+      setErro("Usuário ou senha incorretos.");
     } finally {
       setCarregando(false);
     }
