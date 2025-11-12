@@ -1,6 +1,6 @@
 import Navbar from "../components/Header";
 import { useNavigate } from "react-router-dom";
-
+import { useUser } from "../contexts/UserContext";
 interface CardProps {
   title: React.ReactNode;
   text: React.ReactNode;
@@ -49,7 +49,7 @@ export function Card({ title, text, onClick }: CardProps) {
         <div className="card-actions justify-end mt-4">
           <button
             onClick={(e) => {
-              e.stopPropagation(); // impede que o clique no botão dispare o onClick do card
+              e.stopPropagation();
               onClick?.();
             }}
             className="btn btn-circle btn-primary btn-sm group-hover:scale-110 transition-transform"
@@ -77,7 +77,7 @@ export function Card({ title, text, onClick }: CardProps) {
 
 export function CardClient() {
   const navigate = useNavigate();
-
+  const {exportarPerfil} = useUser();
   const cardsData = [
     {
       id: 1,
@@ -85,7 +85,7 @@ export function CardClient() {
       text: "Clique para acessar este excelente modelo de currículo profissional.",
       route: "/vitae",
       icon: "📄",
-      badge: "Popular"
+      badge: "Popular",
     },
     {
       id: 2,
@@ -93,7 +93,7 @@ export function CardClient() {
       text: "Modelo de currículo acadêmico baseado no currículo Lattes.",
       route: "/lattes",
       icon: "🎓",
-      badge: "Acadêmico"
+      badge: "Acadêmico",
     },
     // {
     //   id: 3,
@@ -109,7 +109,7 @@ export function CardClient() {
       text: "Gerencie suas informações pessoais e preferências.",
       route: "/perfil",
       icon: "👤",
-      badge: "Perfil"
+      badge: "Perfil",
     },
     // {
     //   id: 5,
@@ -161,6 +161,17 @@ export function CardClient() {
               onClick={() => handleClick(card.route)}
             />
           ))}
+          {/* Card exportar */}
+          <Card
+            title={
+              <div className="flex items-center gap-2">
+                <span className="text-lg">📥</span>
+                Exportar perfil
+              </div>
+            }
+            text={"Salve suas informações para usar mais tarde."}
+            onClick={exportarPerfil}
+          />
         </div>
 
         {/* Empty State (para quando não houver cards) */}
@@ -168,7 +179,12 @@ export function CardClient() {
           <div className="text-center py-12">
             <div className="w-24 h-24 mx-auto mb-4 text-base-content/20">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
               </svg>
             </div>
             <h3 className="text-lg font-medium text-base-content mb-2">

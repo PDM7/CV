@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function PerfilForm() {
   const nav = useNavigate();
-  const { perfil, setPerfil, savePerfil, isSaving } = useUser();
+  const { perfil, setPerfil, savePerfil, isSaving, exportarPerfil } = useUser();
   const [file, setFile] = useState<File | null>(null);
 
   const grupos = [
@@ -64,7 +64,7 @@ export default function PerfilForm() {
         <div className="space-x-3">
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost">
-              <Eye /> Ver modelos
+              <Eye /> Visualizar
             </label>
             <ul
               tabIndex={0}
@@ -75,6 +75,9 @@ export default function PerfilForm() {
               </li>
               <li>
                 <button onClick={() => nav("/vitae")}>Vitae</button>
+              </li>
+              <li>
+                <button onClick={exportarPerfil}>Baixar perfil</button>
               </li>
             </ul>
           </div>
@@ -198,6 +201,9 @@ export default function PerfilForm() {
             </li>
             <li>
               <button onClick={() => nav("/vitae")}>Vitae</button>
+            </li>
+            <li>
+              <button onClick={exportarPerfil}>Baixar perfil</button>
             </li>
           </ul>
         </div>

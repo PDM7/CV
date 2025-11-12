@@ -55,7 +55,7 @@ export const defaultData: Perfil = {
 }
 
 export const emptyData: Perfil = {
-    chave: 2,
+    chave: 1,
     nome: "",
     telefone: "",
     foto: "",

@@ -1,6 +1,6 @@
 // import { useTheme } from "../ThemeContext";
 import { useState } from "react";
-import { UserIcon, LogOutIcon, Home, ArrowLeft } from "lucide-react";
+import { UserIcon, LogOutIcon, Home, ArrowLeft, Download } from "lucide-react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -46,12 +46,9 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
     </nav>
   );
 }
-
 export default function Navbar() {
-  const { perfil } = useUser();
-  // const { theme, toggleTheme } = useTheme();
+  const { perfil, logout, exportarPerfil } = useUser();
   const nav = useNavigate();
-  const { logout } = useUser();
   const avatarSrc = perfil.foto;
   const [imgError, setImgError] = useState(false);
 
@@ -65,22 +62,6 @@ export default function Navbar() {
       </div>
 
       <div className="navbar-end space-x-5">
-        {/* Theme toggle */}
-
-        {/* <label className="swap swap-rotate">
-          <input
-            type="checkbox"
-            className="theme-controller"
-            onClick={toggleTheme}
-            aria-label={`Ativar tema ${
-              theme === "custom" ? "claro" : "escuro"
-            }`}
-          />
-          <Sun className="swap-off h-8 w-8" />
-          <MoonStar className="swap-on h-8 w-8 " />
-        </label> */}
-
-        {/* Profile */}
         <div className="dropdown dropdown-hover dropdown-end">
           <div
             tabIndex={0}
@@ -110,6 +91,16 @@ export default function Navbar() {
               >
                 <UserIcon className="w-5 h-5 text-gray-500 dark:text-gray-300" />
                 Perfil
+              </a>
+            </li>
+
+            <li>
+              <a
+                onClick={exportarPerfil}
+                className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 transition"
+              >
+                <Download className="w-5 h-5 text-gray-500 dark:text-gray-300" />
+                Exportar Perfil
               </a>
             </li>
 
