@@ -7,10 +7,12 @@ import Lattes from "./pages/modelos/lattes";
 import TelaLogin from "./pages/Login";
 import Cadastrar from "./pages/Cadastrar";
 import TelaInicio from "./pages/init";
+import { Home_page } from "./pages/home";
 export default function Router() {
   return (
     <Routes>
       <Route path="/inicio" element={<TelaInicio />} />
+      <Route path="/home" element={<Home_page />} />
       <Route
         path="/*"
         element={

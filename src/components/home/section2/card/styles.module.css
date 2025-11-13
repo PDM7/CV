@@ -1,0 +1,27 @@
+.card {
+    height: 130px;
+    background-color: #101010;
+    border-radius: 8px;
+    border: solid 1px #2E2D2D;
+    color: white;
+    padding: 27px 30px;
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    transition: 200ms;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card img {
+    margin-right: 32px;
+    height: 77px;
+    width: 77px;
+}
+
+
+.card h4 {
+    color: #8DCAEB;
+} 
