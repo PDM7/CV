@@ -22,12 +22,14 @@
 
 .title {
     font-family: "Inter", sans-serif;
-    font-size: 40px;
-    font-weight: 800;
+    font-size: 50px;
+    font-weight: 900;
     color: white;
     font-weight: bold;
-    max-width: 400px; 
+    /* max-width: 400px;  */
     line-height: 120%; 
+
+    
     
     animation:  A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
 

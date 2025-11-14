@@ -2,8 +2,8 @@ import { Upload, User, FileText, ArrowRight, FileUser } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { emptyData } from "../default.data";
-import type { Perfil } from "../types/profile";
+import { emptyData } from "../../default.data";
+import type { Perfil } from "../../types/profile";
 
 interface StartData {
   nome: string;
@@ -13,10 +13,12 @@ function dadosVazios(): StartData {
   return { nome: "" };
 }
 
+import styles from "./styles.module.css";
+
 const TelaInicio: React.FC = () => {
   const [dadosInicio, setDadosInicio] = useState<StartData>(dadosVazios);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState<
-    "novo" | "continuar"
+    "novo" | "continuar" | ""
   >("novo");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
@@ -71,8 +73,8 @@ const TelaInicio: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 800));
       const novoPerfil = { ...emptyData, nome: dadosInicio.nome };
 
-      if(localStorage.getItem("profile") !== null) localStorage.removeItem("profile");
-      
+      if (localStorage.getItem("profile") !== null) localStorage.removeItem("profile");
+
       localStorage.setItem("profile", JSON.stringify(novoPerfil));
       alert(`Bem-vindo, ${dadosInicio.nome}! Iniciando nova sessão...`);
       nav("/");
@@ -136,24 +138,99 @@ const TelaInicio: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      {/* Coluna direita - Formulário */}
-      <div className="w-full flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <div className="lg:hidden flex justify-center mb-4">
-              <div className="p-3 bg-indigo-100 rounded-xl">
-                <FileUser className="w-8 h-8 text-indigo-600" />
-              </div>
+    <div
+      className={[styles.page].join(" ")}
+      style={{
+        // backgroundImage: "url(/home/section2/fundo.png)"
+      }}
+    >
+
+      <h1 id={styles.title}>
+        Como deseja <span>começar?</span>
+      </h1>
+      <p id={styles.description}>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+      </p>
+
+
+
+      <div className={styles.selectStart}>
+
+        <button
+          onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}
+          className={`${styles.selectButton} ${opcaoSelecionada == "novo" ? styles.selectButton_Select : ""}`}
+        > <User/> Começar do Zero
+        </button>
+
+        <button
+          type="button"
+          onClick={() => opcaoSelecionada == "continuar" ? setOpcaoSelecionada("") : setOpcaoSelecionada("continuar")}
+          className={`${styles.selectButton} ${opcaoSelecionada == "continuar" ? styles.selectButton_Select : ""}`}
+        > <Upload /> Continuar 
+        </button>
+
+      </div>
+
+      {opcaoSelecionada === "novo" && (
+        <form onSubmit={comecarDoZero} className="space-y-6">
+          <div className="space-y-2">
+            <label
+              htmlFor="nome"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Qual é o seu nome?
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <input
+                id="nome"
+                type="text"
+                name="nome"
+                value={dadosInicio.nome}
+                onChange={onChange}
+                placeholder="Digite seu nome"
+                className="w-full px-4 py-3 pl-11 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none"
+                required
+              />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Vamos Começar
-            </h1>
-            <p className="text-gray-500 text-lg">Escolha como deseja iniciar</p>
           </div>
 
-          {/* Seleção de Opção */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <button
+            type="submit"
+            className="w-full py-4 bg-gradient-to-br from-indigo-600 to-blue-950 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-blue-950 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            disabled={carregando || !dadosInicio.nome.trim()}
+          >
+            {carregando ? (
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Iniciando...</span>
+              </div>
+            ) : (
+              <>
+                Começar Agora
+                <ArrowRight className="w-4 h-4 ml-2 inline" />
+              </>
+            )}
+          </button>
+        </form>
+      )}
+
+
+
+
+
+
+      {/* <div className="w-full flex items-center justify-center p-8">
+
+        <div className="w-full max-w-md space-y-8"> */}
+
+
+
+
+
+
+      {/* <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <div className="grid grid-cols-2 gap-3 mb-6">
               <button
                 type="button"
@@ -210,7 +287,6 @@ const TelaInicio: React.FC = () => {
               </button>
             </div>
 
-            {/* Conteúdo Dinâmico */}
             {opcaoSelecionada === "novo" ? (
               <form onSubmit={comecarDoZero} className="space-y-6">
                 <div className="space-y-2">
@@ -306,9 +382,12 @@ const TelaInicio: React.FC = () => {
                 <span className="text-red-700 text-sm">{erro}</span>
               </div>
             )}
-          </div>
-        </div>
-      </div>
+          
+          </div> */}
+
+      {/* </div>
+
+      </div> */}
     </div>
   );
 };

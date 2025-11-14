@@ -2,7 +2,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import React, { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../../contexts/UserContext";
 
 interface LoginData {
   login: string;

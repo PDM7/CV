@@ -1,0 +1,79 @@
+.page {
+    background-color: #F7F9FA;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    
+}
+
+.selectStart {
+    margin-top: 50px;
+    height: fit-content;
+    display: grid;
+    grid-column-gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+.selectButton {
+    width: 300px;
+    height: 50px;
+    background-color: #E5E5E5;
+    border-radius: 8px;
+    border: solid 1px #A1A1A1;
+    color: rgb(0, 0, 0);
+    padding: 27px 30px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.selectButton svg {
+    height: 25px;
+    width: 25px;
+    margin-right: 20px;
+}
+
+.selectButton:hover {
+    transform: scale(1.05);
+}
+
+
+.selectButton_Select  {
+    background: #0274B3;
+    color: white;
+}
+
+
+#title {
+    margin-top: 250px;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-size: 60px;
+    font-weight: 900;
+    line-height: 100%;
+    color: rgb(0, 0, 0);
+    margin-bottom: 20px;
+    animation:  A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 700ms;
+}
+
+#title span {
+    color: #0274B3;
+    font-weight: 900;
+    font-family: "Inter", sans-serif;
+}
+
+
+#description {
+    max-width: 600px;
+    text-align: center;
+    color: #5E5F5F;
+    font-size: 16px;
+    font-family: "Inter", serif;
+    font-weight: normal;
+}
