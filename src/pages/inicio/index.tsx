@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { emptyData } from "../../default.data";
 import type { Perfil } from "../../types/profile";
 
+import { useWindowSize } from 'react-use'
+
 interface StartData {
   nome: string;
 }
@@ -15,8 +17,17 @@ function dadosVazios(): StartData {
 
 import styles from "./styles.module.css";
 import { Novo_Inicio_Componets } from "../../components/inicio/novo";
+import ReactConfetti from "react-confetti";
+
+
 
 export function TelaInicio() {
+  const { width, height } = useWindowSize()
+  const [sucessNext, setSucessNext] = useState(false);
+  const [perfil, setPerfil] = useState<Perfil | null>(null);
+
+
+  
   const [dadosInicio, setDadosInicio] = useState<StartData>(dadosVazios);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState<
     "novo" | "continuar" | ""
@@ -133,9 +144,27 @@ return (
     }}
   >
 
-    <h1 id={styles.title}>
+      {sucessNext && ( <ReactConfetti
+        width={width}
+        height={height}
+        initialVelocityY={{ min: 20, max: 10}}
+      />)}
+
+    {/* <h1 id={styles.title}>
+      {sucessNext && Como deseja <span>começar?</span>}
+
+      {sucessNext && <span>   </span>}
+    </h1> */}
+
+    {sucessNext && <h1 id={styles.title}>
+       Seja bem-vindo, <span> { perfil?.nome } 🎉</span>
+    </h1>}
+
+    {!sucessNext && <h1 id={styles.title}>
       Como deseja <span>começar?</span>
-    </h1>
+    </h1>}
+
+
     <p id={styles.description}>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
@@ -162,6 +191,10 @@ return (
         opcaoSelecionada === "novo" && 
         <Novo_Inicio_Componets 
           className={styles.form}
+          next={(e) => {
+            setSucessNext(true);
+            setPerfil(e);
+          }}
         />
       }
     </div>

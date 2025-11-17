@@ -4,25 +4,32 @@ import styles from "./styles.module.css";
 import { useState } from "react";
 import { emptyData } from "../../../default.data";
 import { useNavigate } from "react-router-dom";
+import { nextTick } from "process";
+import type { Perfil } from "../../../types/profile";
 
 
 interface IProps {
     // onForm: (e: React.FormEvent) => void;
     className?: string;
+    next: (perfil: Perfil) => void;
 }
 
-export function Novo_Inicio_Componets({ className }: IProps) {
-  const nav = useNavigate();
+export function Novo_Inicio_Componets({ className, next }: IProps) {
+    const nav = useNavigate();
+
 
     const [buttonStutus, setButtonStutus] = useState({
         disabled: true,
         text: "Preencher seu nome"
     });
 
-    
     async function send(event: React.FormEvent) {
         try {
             event.preventDefault();
+
+            if(buttonStutus.text == "Clique para continuar") {
+                nav("/");
+            };
             
             setButtonStutus({
                 disabled: true,
@@ -38,7 +45,13 @@ export function Novo_Inicio_Componets({ className }: IProps) {
             
             localStorage.setItem("profile", JSON.stringify(novoPerfil));
 
-            nav("/");
+            next(novoPerfil);
+
+            setButtonStutus({
+                disabled: false,
+                text: "Clique para continuar"
+            });
+            
         } catch (e) {
         // console.error(e);
         // setErro("Erro ao iniciar nova sessão.");
