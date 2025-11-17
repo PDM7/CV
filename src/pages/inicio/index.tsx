@@ -1,4 +1,4 @@
-import { Upload, User, FileText, ArrowRight, FileUser } from "lucide-react";
+import { Upload, User, ArrowRight } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,12 +14,13 @@ function dadosVazios(): StartData {
 }
 
 import styles from "./styles.module.css";
+import { Novo_Inicio_Componets } from "../../components/inicio/novo";
 
-const TelaInicio: React.FC = () => {
+export function TelaInicio() {
   const [dadosInicio, setDadosInicio] = useState<StartData>(dadosVazios);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState<
     "novo" | "continuar" | ""
-  >("novo");
+  >("");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
@@ -48,12 +49,12 @@ const TelaInicio: React.FC = () => {
     if (!profileStr) return;
 
     try {
-      const profile = JSON.parse(profileStr);
+      // const profile = JSON.parse(profileStr);
 
-      if (!validarPerfil(profile)) throw new Error("Formato inválido");
+      // if (!validarPerfil(profile)) throw new Error("Formato inválido");
 
-      alert("Você já está logado! Redirecionando...");
-      nav("/");
+      // alert("Você já está logado! Redirecionando...");
+      // nav("/");
     } catch {
       console.warn("Perfil inválido no localStorage. Limpando...");
       localStorage.removeItem("profile");
@@ -65,26 +66,12 @@ const TelaInicio: React.FC = () => {
     setDadosInicio((prev) => ({ ...prev, [name]: value }));
     if (erro) setErro(null);
   }
+  
 
-  async function comecarDoZero(event: React.FormEvent) {
-    event.preventDefault();
-    setCarregando(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      const novoPerfil = { ...emptyData, nome: dadosInicio.nome };
 
-      if (localStorage.getItem("profile") !== null) localStorage.removeItem("profile");
 
-      localStorage.setItem("profile", JSON.stringify(novoPerfil));
-      alert(`Bem-vindo, ${dadosInicio.nome}! Iniciando nova sessão...`);
-      nav("/");
-    } catch (e) {
-      console.error(e);
-      setErro("Erro ao iniciar nova sessão.");
-    } finally {
-      setCarregando(false);
-    }
-  }
+
+
 
   async function continuarProgresso(arquivo: File) {
     setCarregando(true);
@@ -122,106 +109,73 @@ const TelaInicio: React.FC = () => {
     }
   }
 
-  function handleFileSelect(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      if (file.type !== "application/json") {
-        setErro("Por favor, selecione um arquivo JSON.");
-        return;
+  // não é usado - gustavo 12/11/2025
+  // function handleFileSelect(event: ChangeEvent<HTMLInputElement>) {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     if (file.type !== "application/json") {
+  //       setErro("Por favor, selecione um arquivo JSON.");
+  //       return;
+  //     }
+  //     continuarProgresso(file);
+  //   }
+
+
+// function handleFileButtonClick() {
+//   fileInputRef.current?.click();
+// }
+
+return (
+  <div
+    className={[styles.page].join(" ")}
+    style={{
+      // backgroundImage: "url(/home/section2/fundo.png)"
+    }}
+  >
+
+    <h1 id={styles.title}>
+      Como deseja <span>começar?</span>
+    </h1>
+    <p id={styles.description}>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+    </p>
+
+
+
+    <div className={styles.selectStart}>
+
+      <button
+        onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}
+        className={`${styles.selectButton} ${opcaoSelecionada == "novo" ? styles.selectButton_Select : ""}`}
+      > <User /> Começar do Zero
+      </button>
+
+      <button
+        type="button"
+        onClick={() => opcaoSelecionada == "continuar" ? setOpcaoSelecionada("") : setOpcaoSelecionada("continuar")}
+        className={`${styles.selectButton} ${opcaoSelecionada == "continuar" ? styles.selectButton_Select : ""}`}
+      > <Upload /> Continuar
+      </button>
+
+      {
+        opcaoSelecionada === "novo" && 
+        <Novo_Inicio_Componets 
+          className={styles.form}
+        />
       }
-      continuarProgresso(file);
-    }
-  }
-
-  function handleFileButtonClick() {
-    fileInputRef.current?.click();
-  }
-
-  return (
-    <div
-      className={[styles.page].join(" ")}
-      style={{
-        // backgroundImage: "url(/home/section2/fundo.png)"
-      }}
-    >
-
-      <h1 id={styles.title}>
-        Como deseja <span>começar?</span>
-      </h1>
-      <p id={styles.description}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-      </p>
+    </div>
 
 
+  </div>
 
-      <div className={styles.selectStart}>
-
-        <button
-          onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}
-          className={`${styles.selectButton} ${opcaoSelecionada == "novo" ? styles.selectButton_Select : ""}`}
-        > <User/> Começar do Zero
-        </button>
-
-        <button
-          type="button"
-          onClick={() => opcaoSelecionada == "continuar" ? setOpcaoSelecionada("") : setOpcaoSelecionada("continuar")}
-          className={`${styles.selectButton} ${opcaoSelecionada == "continuar" ? styles.selectButton_Select : ""}`}
-        > <Upload /> Continuar 
-        </button>
-
-      </div>
-
-      {opcaoSelecionada === "novo" && (
-        <form onSubmit={comecarDoZero} className="space-y-6">
-          <div className="space-y-2">
-            <label
-              htmlFor="nome"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Qual é o seu nome?
-            </label>
-            <div className="relative">
-              <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                id="nome"
-                type="text"
-                name="nome"
-                value={dadosInicio.nome}
-                onChange={onChange}
-                placeholder="Digite seu nome"
-                className="w-full px-4 py-3 pl-11 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none"
-                required
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-4 bg-gradient-to-br from-indigo-600 to-blue-950 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-blue-950 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-            disabled={carregando || !dadosInicio.nome.trim()}
-          >
-            {carregando ? (
-              <div className="flex items-center justify-center space-x-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Iniciando...</span>
-              </div>
-            ) : (
-              <>
-                Começar Agora
-                <ArrowRight className="w-4 h-4 ml-2 inline" />
-              </>
-            )}
-          </button>
-        </form>
-      )}
+  )
+}
 
 
 
 
-
-
-      {/* <div className="w-full flex items-center justify-center p-8">
+{/* <div className="w-full flex items-center justify-center p-8">
 
         <div className="w-full max-w-md space-y-8"> */}
 
@@ -230,7 +184,7 @@ const TelaInicio: React.FC = () => {
 
 
 
-      {/* <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+{/* <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <div className="grid grid-cols-2 gap-3 mb-6">
               <button
                 type="button"
@@ -361,7 +315,7 @@ const TelaInicio: React.FC = () => {
                       </div>
                     ) : (
                       <>
-                        <FileText className="w-4 h-4 mr-2 inline" />
+                       className="w-4 h-4 mr-2 inline" />
                         Selecionar Arquivo JSON
                       </>
                     )}
@@ -385,11 +339,12 @@ const TelaInicio: React.FC = () => {
           
           </div> */}
 
-      {/* </div>
+{/* </div>
 
       </div> */}
-    </div>
-  );
-};
 
-export default TelaInicio;
+
+
+
+
+// export default TelaInicio;
