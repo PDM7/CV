@@ -1,0 +1,58 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f7f7f7;
+    border: solid 1px #A1A1A1;
+    margin-top: 20px;
+    text-align: center;
+    animation: fadeIn 500ms ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title {
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    margin-bottom: 20px;
+}
+
+
+.hiddenInput {
+    display: none;
+}
+
+.loadFileButton {
+    width: 100%;
+    display: flex;
+    border: solid 1px #A1A1A1;
+    background: rgba(231, 231, 231, 0.824);
+    color: rgb(42, 42, 42);
+    height: 50px;
+    border-radius: 8px;
+    transition: 500ms;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 5px 0;
+}
+
+.loadFileButton svg {
+    height: 15px;
+    width: 15px;
+    margin-right: 10px;
+
+}

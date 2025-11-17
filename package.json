@@ -11,6 +11,8 @@
     "start": "npx serve dist"
   },
   "dependencies": {
+    "@react-hook/window-size": "^3.1.1",
+    "@uidotdev/usehooks": "^2.4.1",
     "lucide-react": "^0.546.0",
     "react": "^19.2.0",
     "react-confetti": "^6.4.0",

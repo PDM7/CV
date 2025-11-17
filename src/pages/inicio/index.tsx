@@ -2,10 +2,8 @@ import { Upload, User, ArrowRight } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { emptyData } from "../../default.data";
 import type { Perfil } from "../../types/profile";
-
-import { useWindowSize } from 'react-use'
+import { useWindowSize } from "@react-hook/window-size";
 
 interface StartData {
   nome: string;
@@ -18,11 +16,12 @@ function dadosVazios(): StartData {
 import styles from "./styles.module.css";
 import { Novo_Inicio_Componets } from "../../components/inicio/novo";
 import ReactConfetti from "react-confetti";
+import { Upload_Inicio_Componets } from "../../components/inicio/upload";
 
 
 
 export function TelaInicio() {
-  const { width, height } = useWindowSize()
+  const [ width, height ] = useWindowSize();
   const [sucessNext, setSucessNext] = useState(false);
   const [perfil, setPerfil] = useState<Perfil | null>(null);
 
@@ -38,111 +37,41 @@ export function TelaInicio() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nav = useNavigate();
 
-  function validarPerfil(data: Perfil): boolean {
-    return (
-      data &&
-      typeof data === "object" &&
-      "chave" in data &&
-      "nome" in data &&
-      "telefone" in data &&
-      "foto" in data &&
-      "resumo" in data &&
-      "campos" in data &&
-      "experiencias" in data &&
-      Array.isArray(data.campos) &&
-      Array.isArray(data.experiencias)
-    );
-  }
-
   //Verifica se existe sessão ativa e valida
-  useEffect(() => {
-    const profileStr = localStorage.getItem("profile");
-    if (!profileStr) return;
+  // useEffect(() => {
+  //   const profileStr = localStorage.getItem("profile");
+  //   if (!profileStr) return;
 
-    try {
-      // const profile = JSON.parse(profileStr);
+  //   try {
+  //     // const profile = JSON.parse(profileStr);
 
-      // if (!validarPerfil(profile)) throw new Error("Formato inválido");
+  //     // if (!validarPerfil(profile)) throw new Error("Formato inválido");
 
-      // alert("Você já está logado! Redirecionando...");
-      // nav("/");
-    } catch {
-      console.warn("Perfil inválido no localStorage. Limpando...");
-      localStorage.removeItem("profile");
-    }
-  }, [nav]);
+  //     // alert("Você já está logado! Redirecionando...");
+  //     // nav("/");
+  //   } catch {
+  //     console.warn("Perfil inválido no localStorage. Limpando...");
+  //     localStorage.removeItem("profile");
+  //   }
+  // }, [nav]);
 
-  function onChange(event: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    setDadosInicio((prev) => ({ ...prev, [name]: value }));
-    if (erro) setErro(null);
-  }
+  // function onChange(event: ChangeEvent<HTMLInputElement>) {
+  //   const { name, value } = event.target;
+  //   setDadosInicio((prev) => ({ ...prev, [name]: value }));
+  //   if (erro) setErro(null);
+  // }
   
 
 
 
 
-
-
-  async function continuarProgresso(arquivo: File) {
-    setCarregando(true);
-
-    try {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        try {
-          const jsonData = JSON.parse(event.target?.result as string);
-
-          if (!validarPerfil(jsonData)) throw new Error("Formato inválido");
-
-          localStorage.setItem("profile", JSON.stringify(jsonData));
-          alert("Progresso carregado com sucesso! Carregando...");
-          nav("/");
-        } catch (e) {
-          console.error(e);
-          setErro("Arquivo JSON inválido ou corrompido.");
-        } finally {
-          setCarregando(false);
-        }
-      };
-
-      reader.onerror = () => {
-        setErro("Erro ao ler o arquivo.");
-        setCarregando(false);
-      };
-
-      reader.readAsText(arquivo);
-    } catch (e) {
-      console.error(e);
-      setErro("Erro ao processar arquivo.");
-      setCarregando(false);
-    }
-  }
-
-  // não é usado - gustavo 12/11/2025
-  // function handleFileSelect(event: ChangeEvent<HTMLInputElement>) {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     if (file.type !== "application/json") {
-  //       setErro("Por favor, selecione um arquivo JSON.");
-  //       return;
-  //     }
-  //     continuarProgresso(file);
-  //   }
-
-
-// function handleFileButtonClick() {
-//   fileInputRef.current?.click();
-// }
-
-return (
-  <div
-    className={[styles.page].join(" ")}
-    style={{
-      // backgroundImage: "url(/home/section2/fundo.png)"
-    }}
-  >
+  return (
+    <div
+      className={[styles.page].join(" ")}
+      style={{
+        // backgroundImage: "url(/home/section2/fundo.png)"
+      }}
+    >
 
       {sucessNext && ( <ReactConfetti
         width={width}
@@ -150,58 +79,60 @@ return (
         initialVelocityY={{ min: 20, max: 10}}
       />)}
 
-    {/* <h1 id={styles.title}>
-      {sucessNext && Como deseja <span>começar?</span>}
+      {sucessNext && <h1 id={styles.title}>
+        Seja bem-vindo, <span> { perfil?.nome } 🎉</span>
+      </h1>}
 
-      {sucessNext && <span>   </span>}
-    </h1> */}
+      {!sucessNext && <h1 id={styles.title}>
+        Como deseja <span>começar?</span>
+      </h1>}
 
-    {sucessNext && <h1 id={styles.title}>
-       Seja bem-vindo, <span> { perfil?.nome } 🎉</span>
-    </h1>}
+      <p id={styles.description}>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+      </p>
 
-    {!sucessNext && <h1 id={styles.title}>
-      Como deseja <span>começar?</span>
-    </h1>}
+      <div className={styles.selectStart}>
 
+        <button
+          onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}
+          className={`${styles.selectButton} ${opcaoSelecionada == "novo" ? styles.selectButton_Select : ""}`}
+        > <User /> Começar do Zero
+        </button>
 
-    <p id={styles.description}>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-    </p>
+        <button
+          type="button"
+          onClick={() => opcaoSelecionada == "continuar" ? setOpcaoSelecionada("") : setOpcaoSelecionada("continuar")}
+          className={`${styles.selectButton} ${opcaoSelecionada == "continuar" ? styles.selectButton_Select : ""}`}
+        > <Upload /> Continuar
+        </button>
 
+        {
+          opcaoSelecionada === "novo" && 
+          <Novo_Inicio_Componets 
+            className={styles.form}
+            next={(e) => {
+              setSucessNext(true);
+              setPerfil(e);
+            }}
+          />
+        }
 
+        {
+          opcaoSelecionada === "continuar" && 
+          <Upload_Inicio_Componets
+            className={styles.form}
+            next={(e) => {
+              setSucessNext(true);
+              setPerfil(e);
+            }}
+          />
+        }
 
-    <div className={styles.selectStart}>
+          
+      </div>
 
-      <button
-        onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}
-        className={`${styles.selectButton} ${opcaoSelecionada == "novo" ? styles.selectButton_Select : ""}`}
-      > <User /> Começar do Zero
-      </button>
-
-      <button
-        type="button"
-        onClick={() => opcaoSelecionada == "continuar" ? setOpcaoSelecionada("") : setOpcaoSelecionada("continuar")}
-        className={`${styles.selectButton} ${opcaoSelecionada == "continuar" ? styles.selectButton_Select : ""}`}
-      > <Upload /> Continuar
-      </button>
-
-      {
-        opcaoSelecionada === "novo" && 
-        <Novo_Inicio_Componets 
-          className={styles.form}
-          next={(e) => {
-            setSucessNext(true);
-            setPerfil(e);
-          }}
-        />
-      }
     </div>
-
-
-  </div>
-
   )
 }
 
