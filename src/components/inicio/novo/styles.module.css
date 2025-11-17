@@ -100,3 +100,24 @@
     opacity: 0.2;
     cursor: not-allowed;
 }
+
+
+.sendButton:disabled:hover {
+    animation: A_ButtonDisabled 500ms ; 
+    /* transform: none; */
+}
+
+
+
+@keyframes A_ButtonDisabled {
+    0% {
+        transform: translateX(5px);
+    }
+    50% {
+        transform: translateX(-5px);
+        background-color: red;
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}

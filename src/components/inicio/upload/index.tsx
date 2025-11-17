@@ -6,6 +6,7 @@ import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, type ChangeEvent } from "react";
 import type { Perfil } from "../../../types/profile";
+import { emptyData } from "../../../default.data";
 
 
 
@@ -34,12 +35,14 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const nav = useNavigate();
+    let code = 0;
 
 
 
     const [buttonStutus, setButtonStutus] = useState({
         disabled: true,
-        text: "Clique para selecionar o arquivo"
+        text: "Clique para selecionar o arquivo",
+        code: 0
     });
 
     function validarPerfil(data: Perfil): boolean {
@@ -60,20 +63,32 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
 
 
     async function continuarProgresso(arquivo: File) {
-        setCarregando(true);
-
         try {
             const reader = new FileReader();
 
             reader.onload = (event) => {
                 try {
-                    const jsonData = JSON.parse(event.target?.result as string);
+                    if(buttonStutus.code == 3) {
+                        nav("/");
+                    };
 
-                    if (!validarPerfil(jsonData)) throw new Error("Formato inválido");
+                    const jsonData = JSON.parse(event.target?.result as string);                
+                    if (!validarPerfil(jsonData)) {
+                        setButtonStutus({
+                            disabled: true,
+                            text: "O arquivo inválido .Json pode estar corrompido",
+                            code: 1
+                        });
+                    }
 
                     localStorage.setItem("profile", JSON.stringify(jsonData));
-                    alert("Progresso carregado com sucesso! Carregando...");
-                    nav("/");
+                    next(jsonData);
+
+                    setButtonStutus({
+                        disabled: false,
+                        text: "Clique para continuar",
+                        code: 3
+                    });
                 } catch (e) {
                     console.error(e);
                     setErro("Arquivo JSON inválido ou corrompido.");
@@ -95,21 +110,46 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
         }
     }
 
-    // não é usado - gustavo 12/11/2025
-    function handleFileSelect(event: ChangeEvent<HTMLInputElement>) {
+    function validaJson(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
-        if (file) {
-            if (file.type !== "application/json") {
-                setErro("Por favor, selecione um arquivo JSON.");
-                return;
-            }
+
+        if (file && file.type !== "application/json") {
+            setButtonStutus({
+                disabled: true,
+                text: "Arquivo inválido, selecione um arquivo .json",
+                code: 1
+            });
+
+            return;
+        }else if (file) {
+            setButtonStutus({
+                disabled: true,
+                text: `${file.name} - Selecionado`,
+                code: 2
+            });
+            
             continuarProgresso(file);
         }
+
+
+
+        // const novoPerfil = { ...emptyData, ...{ nome: form.nome.value } };
+        
+
+        //     continuarProgresso(file);
+        
     }
 
 
     function handleFileButtonClick() {
         fileInputRef.current?.click();
+
+        setButtonStutus({
+            disabled: true,
+            text: "Selecionando arquivo...",
+            code: 0
+        });
+
     }
 
     return (
@@ -120,30 +160,50 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
             }}
         >
             <h3 className={styles.title}>
-                Carregar Progresso Salvo
+                {buttonStutus.code != 3 && <span className={styles.subtitle}> Selecione o arquivo .json salvo anteriormente para continuar </span>}
+                {buttonStutus.code == 3 && <span className={styles.subtitle}> Arquivo carregado com sucesso! </span>}
             </h3>
 
             <input
                 type="file"
                 ref={fileInputRef}
-                accept=".json"
-                onChange={handleFileSelect}
+                // accept=".json"
+                onChange={validaJson}
                 className={styles.hiddenInput}
             />
 
-            <button
-                type="button"
-                onClick={handleFileButtonClick}
-                className={styles.loadFileButton}
-                disabled={carregando}
-            >
-                <Upload className="" />
-                {buttonStutus.text}
-            </button>
+            <div className={[styles.buttonGroup, buttonStutus.code == 3 && styles.fullButton].join(" ")}>
+                {buttonStutus.code != 3 && <button
+                    type="button"
+                    onClick={handleFileButtonClick}
+                    className={[styles.loadFileButton, buttonStutus.code == 1 && styles.errorButton].join(" ")}
+                    disabled={carregando}
+                >
+                    <Upload className="" />
+                    {buttonStutus.text}
+                    
+                </button>
+                }
+
+                {buttonStutus.code != 3 && <button
+                    type="submit"
+                    className={styles.sendButton}
+                    disabled={buttonStutus.code != 2}
+                >Continuar</button>}
+
+                {buttonStutus.code == 3 && <button
+                    type="submit"
+                    className={[styles.sendButton, styles.fullButton].join(" ")}
+                    onClick={() => nav("/")}
+                >{buttonStutus.text}</button>}
+
+            </div>
 
             <p className="text-xs text-gray-500 mt-3">
                 Procure pelo arquivo .json que você salvou anteriormente
             </p>
+
+            
         </div>
     )
 
