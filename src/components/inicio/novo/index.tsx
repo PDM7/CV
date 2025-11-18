@@ -28,7 +28,7 @@ export function Novo_Inicio_Componets({ className, next }: IProps) {
             event.preventDefault();
 
             if(buttonStutus.text == "Clique para continuar") {
-                nav("/");
+                nav("/home");
             };
             
             setButtonStutus({

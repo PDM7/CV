@@ -69,7 +69,7 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
             reader.onload = (event) => {
                 try {
                     if(buttonStutus.code == 3) {
-                        nav("/");
+                        nav("/home");
                     };
 
                     const jsonData = JSON.parse(event.target?.result as string);                
@@ -194,7 +194,7 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
                 {buttonStutus.code == 3 && <button
                     type="submit"
                     className={[styles.sendButton, styles.fullButton].join(" ")}
-                    onClick={() => nav("/")}
+                    onClick={() => nav("/home")}
                 >{buttonStutus.text}</button>}
 
             </div>

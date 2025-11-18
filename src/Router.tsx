@@ -11,14 +11,14 @@ import { TelaInicio } from "./pages/inicio";
 export default function Router() {
   return (
     <Routes>
+      <Route path="/" element={<Home_page />} />
       <Route path="/inicio" element={<TelaInicio />} />
-      <Route path="/home" element={<Home_page />} />
       <Route
         path="/*"
         element={
           <UserProvider>
             <Routes>
-              <Route path="/" element={<IndexPage />} />
+              <Route path="/home" element={<IndexPage />} />
               <Route path="/vitae" element={<Vitae />} />
               <Route path="/lattes" element={<Lattes />} />
               <Route path="/perfil" element={<PerfilPage />} />
