@@ -4,21 +4,21 @@ import PerfilPage from "./pages/profile/PerfilPage";
 import { UserProvider } from "./contexts/UserContext";
 import Vitae from "./pages/modelos/vitae";
 import Lattes from "./pages/modelos/lattes";
-import TelaLogin from "./pages/Login";
+import TelaLogin from "./pages/login";
 import Cadastrar from "./pages/Cadastrar";
-import TelaInicio from "./pages/init";
 import { Home_page } from "./pages/home";
+import { TelaInicio } from "./pages/inicio";
 export default function Router() {
   return (
     <Routes>
+      <Route path="/" element={<Home_page />} />
       <Route path="/inicio" element={<TelaInicio />} />
-      <Route path="/home" element={<Home_page />} />
       <Route
         path="/*"
         element={
           <UserProvider>
             <Routes>
-              <Route path="/" element={<IndexPage />} />
+              <Route path="/home" element={<IndexPage />} />
               <Route path="/vitae" element={<Vitae />} />
               <Route path="/lattes" element={<Lattes />} />
               <Route path="/perfil" element={<PerfilPage />} />

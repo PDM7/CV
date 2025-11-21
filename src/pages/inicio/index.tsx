@@ -1,9 +1,9 @@
-import { Upload, User, FileText, ArrowRight, FileUser } from "lucide-react";
+import { Upload, User, ArrowRight } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { emptyData } from "../default.data";
-import type { Perfil } from "../types/profile";
+import type { Perfil } from "../../types/profile";
+import { useWindowSize } from "@react-hook/window-size";
 
 interface StartData {
   nome: string;
@@ -13,147 +13,142 @@ function dadosVazios(): StartData {
   return { nome: "" };
 }
 
-const TelaInicio: React.FC = () => {
+import styles from "./styles.module.css";
+import { Novo_Inicio_Componets } from "../../components/inicio/novo";
+import ReactConfetti from "react-confetti";
+import { Upload_Inicio_Componets } from "../../components/inicio/upload";
+
+
+
+export function TelaInicio() {
+  const [ width, height ] = useWindowSize();
+  const [sucessNext, setSucessNext] = useState(false);
+  const [perfil, setPerfil] = useState<Perfil | null>(null);
+
+
+  
   const [dadosInicio, setDadosInicio] = useState<StartData>(dadosVazios);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState<
-    "novo" | "continuar"
-  >("novo");
+    "novo" | "continuar" | ""
+  >("");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nav = useNavigate();
 
-  function validarPerfil(data: Perfil): boolean {
-    return (
-      data &&
-      typeof data === "object" &&
-      "chave" in data &&
-      "nome" in data &&
-      "telefone" in data &&
-      "foto" in data &&
-      "resumo" in data &&
-      "campos" in data &&
-      "experiencias" in data &&
-      Array.isArray(data.campos) &&
-      Array.isArray(data.experiencias)
-    );
-  }
-
   //Verifica se existe sessão ativa e valida
-  useEffect(() => {
-    const profileStr = localStorage.getItem("profile");
-    if (!profileStr) return;
+  // useEffect(() => {
+  //   const profileStr = localStorage.getItem("profile");
+  //   if (!profileStr) return;
 
-    try {
-      const profile = JSON.parse(profileStr);
+  //   try {
+  //     // const profile = JSON.parse(profileStr);
 
-      if (!validarPerfil(profile)) throw new Error("Formato inválido");
+  //     // if (!validarPerfil(profile)) throw new Error("Formato inválido");
 
-      alert("Você já está logado! Redirecionando...");
-      nav("/");
-    } catch {
-      console.warn("Perfil inválido no localStorage. Limpando...");
-      localStorage.removeItem("profile");
-    }
-  }, [nav]);
+  //     // alert("Você já está logado! Redirecionando...");
+  //     // nav("/");
+  //   } catch {
+  //     console.warn("Perfil inválido no localStorage. Limpando...");
+  //     localStorage.removeItem("profile");
+  //   }
+  // }, [nav]);
 
-  function onChange(event: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    setDadosInicio((prev) => ({ ...prev, [name]: value }));
-    if (erro) setErro(null);
-  }
+  // function onChange(event: ChangeEvent<HTMLInputElement>) {
+  //   const { name, value } = event.target;
+  //   setDadosInicio((prev) => ({ ...prev, [name]: value }));
+  //   if (erro) setErro(null);
+  // }
+  
 
-  async function comecarDoZero(event: React.FormEvent) {
-    event.preventDefault();
-    setCarregando(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      const novoPerfil = { ...emptyData, nome: dadosInicio.nome };
 
-      if(localStorage.getItem("profile") !== null) localStorage.removeItem("profile");
-      
-      localStorage.setItem("profile", JSON.stringify(novoPerfil));
-      alert(`Bem-vindo, ${dadosInicio.nome}! Iniciando nova sessão...`);
-      nav("/");
-    } catch (e) {
-      console.error(e);
-      setErro("Erro ao iniciar nova sessão.");
-    } finally {
-      setCarregando(false);
-    }
-  }
 
-  async function continuarProgresso(arquivo: File) {
-    setCarregando(true);
-
-    try {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        try {
-          const jsonData = JSON.parse(event.target?.result as string);
-
-          if (!validarPerfil(jsonData)) throw new Error("Formato inválido");
-
-          localStorage.setItem("profile", JSON.stringify(jsonData));
-          alert("Progresso carregado com sucesso! Carregando...");
-          nav("/");
-        } catch (e) {
-          console.error(e);
-          setErro("Arquivo JSON inválido ou corrompido.");
-        } finally {
-          setCarregando(false);
-        }
-      };
-
-      reader.onerror = () => {
-        setErro("Erro ao ler o arquivo.");
-        setCarregando(false);
-      };
-
-      reader.readAsText(arquivo);
-    } catch (e) {
-      console.error(e);
-      setErro("Erro ao processar arquivo.");
-      setCarregando(false);
-    }
-  }
-
-  function handleFileSelect(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      if (file.type !== "application/json") {
-        setErro("Por favor, selecione um arquivo JSON.");
-        return;
-      }
-      continuarProgresso(file);
-    }
-  }
-
-  function handleFileButtonClick() {
-    fileInputRef.current?.click();
-  }
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      {/* Coluna direita - Formulário */}
-      <div className="w-full flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <div className="lg:hidden flex justify-center mb-4">
-              <div className="p-3 bg-indigo-100 rounded-xl">
-                <FileUser className="w-8 h-8 text-indigo-600" />
-              </div>
-            </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Vamos Começar
-            </h1>
-            <p className="text-gray-500 text-lg">Escolha como deseja iniciar</p>
-          </div>
+    <div
+      className={[styles.page].join(" ")}
+      style={{
+        // backgroundImage: "url(/home/section2/fundo.png)"
+      }}
+    >
 
-          {/* Seleção de Opção */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      {sucessNext && ( <ReactConfetti
+        width={width}
+        height={height}
+        initialVelocityY={{ min: 20, max: 10}}
+      />)}
+
+      {sucessNext && <h1 id={styles.title}>
+        Seja bem-vindo, <span> { perfil?.nome } 🎉</span>
+      </h1>}
+
+      {!sucessNext && <h1 id={styles.title}>
+        Como deseja <span>começar?</span>
+      </h1>}
+
+      <p id={styles.description}>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+      </p>
+
+      <div className={styles.selectStart}>
+
+        <button
+          onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}
+          className={`${styles.selectButton} ${opcaoSelecionada == "novo" ? styles.selectButton_Select : ""}`}
+        > <User /> Começar do Zero
+        </button>
+
+        <button
+          type="button"
+          onClick={() => opcaoSelecionada == "continuar" ? setOpcaoSelecionada("") : setOpcaoSelecionada("continuar")}
+          className={`${styles.selectButton} ${opcaoSelecionada == "continuar" ? styles.selectButton_Select : ""}`}
+        > <Upload /> Continuar
+        </button>
+
+        {
+          opcaoSelecionada === "novo" && 
+          <Novo_Inicio_Componets 
+            className={styles.form}
+            next={(e) => {
+              setSucessNext(true);
+              setPerfil(e);
+            }}
+          />
+        }
+
+        {
+          opcaoSelecionada === "continuar" && 
+          <Upload_Inicio_Componets
+            className={styles.form}
+            next={(e) => {
+              setSucessNext(true);
+              setPerfil(e);
+            }}
+          />
+        }
+
+          
+      </div>
+
+    </div>
+  )
+}
+
+
+
+
+{/* <div className="w-full flex items-center justify-center p-8">
+
+        <div className="w-full max-w-md space-y-8"> */}
+
+
+
+
+
+
+{/* <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <div className="grid grid-cols-2 gap-3 mb-6">
               <button
                 type="button"
@@ -210,7 +205,6 @@ const TelaInicio: React.FC = () => {
               </button>
             </div>
 
-            {/* Conteúdo Dinâmico */}
             {opcaoSelecionada === "novo" ? (
               <form onSubmit={comecarDoZero} className="space-y-6">
                 <div className="space-y-2">
@@ -285,7 +279,7 @@ const TelaInicio: React.FC = () => {
                       </div>
                     ) : (
                       <>
-                        <FileText className="w-4 h-4 mr-2 inline" />
+                       className="w-4 h-4 mr-2 inline" />
                         Selecionar Arquivo JSON
                       </>
                     )}
@@ -306,11 +300,15 @@ const TelaInicio: React.FC = () => {
                 <span className="text-red-700 text-sm">{erro}</span>
               </div>
             )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+          
+          </div> */}
 
-export default TelaInicio;
+{/* </div>
+
+      </div> */}
+
+
+
+
+
+// export default TelaInicio;

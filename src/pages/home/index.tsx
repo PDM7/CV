@@ -10,6 +10,10 @@ export function Home_page() {
         >
             <Start_Home_Layout/>
             <Section2_Home_Layout/>
+            
         </div>
+
+
+
     )
 }
