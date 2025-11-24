@@ -25,7 +25,8 @@
 .title {
     font-family: "Inter", sans-serif;
     font-size: 20px;
-    font-weight: 700;
+    font-weight: bold;
+    line-height: 20px;
     color: rgb(0, 0, 0);
     margin-bottom: 20px;
 }
@@ -132,4 +133,26 @@
 
 .fullButton {
     grid-template-columns: 1fr;
+}
+
+@media (max-width: 700px) {
+    .buttonGroup {
+        grid-template-columns: 1fr;
+        grid-row-gap: 10px;
+    }
+
+    .title {
+        font-size: 15px;
+    }
+
+    .buttonGroup button {
+        font-size: 12px
+    };
+}
+
+
+@media (max-width: 330px) {
+    .buttonGroup button svg {
+        display: none
+    };
 }

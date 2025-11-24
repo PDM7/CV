@@ -160,8 +160,8 @@ export function Upload_Inicio_Componets({ className, next }: IProps) {
             }}
         >
             <h3 className={styles.title}>
-                {buttonStutus.code != 3 && <span className={styles.subtitle}> Selecione o arquivo .json salvo anteriormente para continuar </span>}
-                {buttonStutus.code == 3 && <span className={styles.subtitle}> Arquivo carregado com sucesso! </span>}
+                {buttonStutus.code != 3 && <> Selecione o arquivo .json salvo anteriormente para continuar </>}
+                {buttonStutus.code == 3 && <> Arquivo carregado com sucesso! </>}
             </h3>
 
             <input

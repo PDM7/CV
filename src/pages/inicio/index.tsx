@@ -107,29 +107,33 @@ export function TelaInicio() {
         > <Upload /> Continuar
         </button>
 
-        {
-          opcaoSelecionada === "novo" && 
-          <Novo_Inicio_Componets 
-            className={styles.form}
-            next={(e) => {
-              setSucessNext(true);
-              setPerfil(e);
-            }}
-          />
-        }
 
-        {
-          opcaoSelecionada === "continuar" && 
-          <Upload_Inicio_Componets
-            className={styles.form}
-            next={(e) => {
-              setSucessNext(true);
-              setPerfil(e);
-            }}
-          />
-        }
 
           
+      </div>
+
+      <div className={styles.startContainer}>
+              {
+        opcaoSelecionada === "novo" && 
+        <Novo_Inicio_Componets 
+          className={styles.form}
+          next={(e) => {
+            setSucessNext(true);
+            setPerfil(e);
+          }}
+        />
+      }
+
+      {
+        opcaoSelecionada === "continuar" && 
+        <Upload_Inicio_Componets
+          className={styles.form}
+          next={(e) => {
+            setSucessNext(true);
+            setPerfil(e);
+          }}
+        />
+      }
       </div>
 
     </div>
