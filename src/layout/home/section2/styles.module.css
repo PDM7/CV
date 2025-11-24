@@ -27,11 +27,11 @@
     color: white;
     font-weight: bold;
     /* max-width: 400px;  */
-    line-height: 120%; 
+    line-height: 120%;
 
-    
-    
-    animation:  A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
+
+
+    animation: A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
 
 
 
@@ -45,14 +45,14 @@
     max-width: 700px;
     margin-top: 22px;
 
-    animation:  A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
+    animation: A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
 
 }
 
 .title span {
     color: #87B1D9;
 
-    animation:  A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
+    animation: A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
 
 }
 
@@ -60,12 +60,12 @@
     margin-top: 80px;
     display: flex;
     justify-content: space-between;
-    animation:  A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
+    animation: A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
 
 }
 
 .cardCenter {
-    margin: 0 20px;   
+    margin: 0 20px;
 }
 
 
@@ -73,8 +73,8 @@
     to {
         /* opacity: 0; */
         transform: translateY(0px);
-    } 
-    
+    }
+
     from {
         /* opacity: 1; */
         transform: translateY(60px);
@@ -99,7 +99,7 @@
     }
 
     .cardCenter {
-        margin: 10px 0;   
+        margin: 10px 0;
     }
 
 }
@@ -111,11 +111,50 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
+        width: 100%;
     }
 
     .cardCenter {
-        margin: 10px 0;   
+        margin: 10px 0;
+    }
+
+    .card {
+        flex-direction: column;
+        height: fit-content;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .card img {
+        margin: 0 0 20px 0;
+    }
+
+    .card h4 {
+        font-size: 15px;
+    }
+
+    .card p {
+        font-size: 10px;
+    }
+
+
+
+
+
+    .title {
+        font-family: "Inter", sans-serif;
+        font-size: 30px;
+        font-weight: 900;
+        color: white;
+        font-weight: bold;
+        animation: A_Start cubic-bezier(0.215, 0.610, 0.355, 1) 500ms;
+    }
+
+    .description {
+        font-size: 15px;
+        font-family: "Inter", serif;
+        font-weight: normal;
     }
 
 }

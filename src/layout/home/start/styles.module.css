@@ -134,7 +134,7 @@
     }
     
 
-    .start h1 {
+    .start h1, span {
         font-size: 40px;
         text-align: center;
     }
@@ -156,9 +156,19 @@
         min-width: none !important;
     }
 
+    
 }
 
+@media (max-width: 500px) {
+    .start h1, span {
+        font-size: 37px !important;
+    }
+    
 
+    .start p {
+        font-size: 15px;        
+    }
+}
 
 
 @keyframes A_Start {

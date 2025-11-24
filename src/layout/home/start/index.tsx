@@ -7,7 +7,7 @@ export function Start_Home_Layout() {
         <div className={styles.start} style={{ backgroundImage: "url(/home/start/fundo.png)" }}>
             <Container_Layout className={styles.container}>
                 <div className={styles.collumn}>
-                    <h1 id={styles.title}>Nome do criador de <span>currículo</span></h1>
+                    <h1 id={styles.title}>O currículo <span>online</span></h1>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley</p>
 
                     <button onClick={() => {

@@ -19,6 +19,7 @@ export function Section2_Home_Layout() {
 
                 <div className={styles.cards}>
                     <Card_Elements
+                        className={[styles.card].join(" ")}
                         imageSrc="/home/section2/icons/pdf.png"
                         title="Importe em PDF"
                         description="Faça upload de um currículo existente"
@@ -28,13 +29,14 @@ export function Section2_Home_Layout() {
                         imageSrc="/home/section2/icons/link.png"
                         title="Importe em Linkedin"
                         description="Faça upload de um currículo existente"
-                        className={styles.cardCenter}
+                        className={[styles.cardCenter, styles.card].join(" ")}
                     />
 
                     <Card_Elements
                         imageSrc="/home/section2/icons/github.png"
                         title="Importe do GitHub"
                         description="Faça upload de um currículo existente"
+                        className={[styles.card].join(" ")}
                     />
                 </div>
             </Container_Layout>

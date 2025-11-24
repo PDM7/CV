@@ -1,5 +1,5 @@
 import { Section2_Home_Layout } from "../../layout/home/section2";
-import { Start_Home_Layout } from "../../layout/home/start ";
+import { Start_Home_Layout } from "../../layout/home/start";
 
 import styles from "./styles.module.css";
 
