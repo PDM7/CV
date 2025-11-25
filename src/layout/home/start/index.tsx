@@ -11,11 +11,10 @@ export function Start_Home_Layout() {
         <Container_Layout className={styles.container}>
           <div className={styles.collumn}>
             <h1 id={styles.title}>
-              <span>ocurriculo.online</span>
+              <span>Ocurriculo.online</span>
             </h1>
-            <p>
-              Um framework versátil, simples e seguro, permitindo a criação de
-              currículos de forma estruturada.
+            <p>Uma solução open source pensada para apoiar estudantes no início da carreira.
+O Currículo Online oferece uma experiência simples, estruturada e prática para criar currículos acadêmicos e profissionais.
             </p>
 
             <button

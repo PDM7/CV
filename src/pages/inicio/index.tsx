@@ -87,9 +87,7 @@ export function TelaInicio() {
         Como deseja <span>começar?</span>
       </h1>}
 
-      <p id={styles.description}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+      <p id={styles.description}>Escolha como deseja iniciar seu currículo. Você pode começar do zero ou continuar de onde parou para manter seu progresso sempre organizado.
       </p>
 
       <div className={styles.selectStart}>
