@@ -15,7 +15,7 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
   return (
     <nav className="flex items-center justify-between p-3 shadow-md bg-base-200 no-print">
       <div className="navbar-center">
-        <a className="btn btn-ghost text-xl" href="/">
+        <a className="btn btn-ghost text-xl" href="/home">
           <Home />
           Curriculum
         </a>
@@ -46,6 +46,8 @@ export function CurriculumHeader({ onClick }: CurriculumHeaderProps) {
     </nav>
   );
 }
+
+
 export default function Navbar() {
   const { perfil, logout, exportarPerfil } = useUser();
   const nav = useNavigate();
@@ -55,7 +57,7 @@ export default function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-sm justify-between">
       <div className="navbar-center">
-        <a className="btn btn-ghost text-xl" href="/">
+        <a className="btn btn-ghost text-xl" href="/home">
           <Home />
           Curriculum
         </a>

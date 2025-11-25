@@ -1,4 +1,4 @@
-import PainelPage from "../pages/PainelPage";
+import PainelPage from "./painelPage/PainelPage";
 
 export function IndexPage() {
   return (

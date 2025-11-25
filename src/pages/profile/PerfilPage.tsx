@@ -1,4 +1,4 @@
-import PerfilForm from "./components/PerfilForm";
+import PerfilForm from "../perfil/PerfilForm";
 import Navbar from "../../components/Header";
 
 export default function PerfilPage() {

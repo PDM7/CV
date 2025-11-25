@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.css";
 
 interface IProps {
-    children: React.ReactNode[],
+    children: React.ReactNode[] | React.ReactNode,
     className?: string
 }
 

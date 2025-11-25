@@ -1,0 +1,83 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f7f7f7;
+    border: solid 1px #A1A1A1;
+    border-radius: 8px;
+    animation: fadeIn 500ms ease-in-out;
+    transition: 500ms;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border: solid 1px #4A90E2;
+    background-color: #ffffffcb;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+
+}
+
+.iconContainer {
+    font-size: 50px;
+    color: #4A90E2; /* Example color, adjust as needed */
+}
+
+.textContainer h3 {
+    font-family: "Inter", sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.textContainer p {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    color: #555555;
+    margin: 0;
+
+}
+
+.buttonOpen {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 20px;
+    background: #0274B3;
+    color: white;
+    height: 35px;
+    border-radius: 8px;
+    transition: 500ms;
+}
+
+.buttonOpen:hover {
+    transform: translateX(5px);
+}
+
+
+@media (max-width: 460px) {
+    .titleContainer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

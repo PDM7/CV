@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from "react";
-import CamposSection from "./CamposSection";
+import CamposSection from "../profile/components/CamposSection";
 
-import { useUser } from "../../../contexts/UserContext";
+import { useUser } from "../../contexts/UserContext";
 import {
   Briefcase,
   GraduationCap,
@@ -10,8 +10,8 @@ import {
   Save,
   Eye,
 } from "lucide-react";
-import { AvatarUpload } from "../../../components/form/Avatar";
-import ExperienciasSection from "./Sections";
+import { AvatarUpload } from "../../components/form/Avatar";
+import ExperienciasSection from "../profile/components/Sections";
 import { useNavigate } from "react-router-dom";
 
 export default function PerfilForm() {
