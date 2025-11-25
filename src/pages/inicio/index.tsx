@@ -67,12 +67,11 @@ export function TelaInicio() {
 
   return (
     <div
-      className={[styles.page].join(" ")}
+      className={`${[styles.page].join(" ")} min-h-100 p-2 stext-center justify-center`}
       style={{
         // backgroundImage: "url(/home/section2/fundo.png)"
       }}
     >
-
       {sucessNext && ( <ReactConfetti
         width={width}
         height={height}
@@ -89,8 +88,7 @@ export function TelaInicio() {
 
       <p id={styles.description}>Escolha como deseja iniciar seu currículo. Você pode começar do zero ou continuar de onde parou para manter seu progresso sempre organizado.
       </p>
-
-      <div className={styles.selectStart}>
+      <div className={`${styles.selectStart} grid grid-cols-1 md:grid-cols-2 space-x-2 gap-2`}>
 
         <button
           onClick={() => opcaoSelecionada == "novo" ? setOpcaoSelecionada("") : setOpcaoSelecionada("novo")}

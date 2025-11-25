@@ -13,12 +13,12 @@
     height: fit-content;
     display: grid;
     grid-column-gap: 20px;
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: repeat(2, 1fr); Estava quebrando responsividade */
 }
 
 
 .selectButton {
-    width: 300px;
+    width: auto;
     height: 50px;
     background-color: #E5E5E5;
     border-radius: 8px;
@@ -51,7 +51,7 @@
 
 
 #title {
-    margin-top: 250px;
+    /* margin-top: 250px; Wtf usar tamanho em pixel?? Por isso n tava responsivo*/
     text-align: center;
     font-family: "Inter", sans-serif;
     font-size: 60px;
