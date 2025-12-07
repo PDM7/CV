@@ -1,0 +1,99 @@
+{
+   "chave":1,
+   "nome":"Maria Jose Pereira",
+   "telefone":"",
+   "foto":"blob:https://ocurriculo.online/blank",
+   "resumo":"Programadora de 21 anos, recém-formada em Ciência da Computação, com experiência prática em desenvolvimento backend com Node.js e Java, além de sólida base em JavaScript. Atua em pequenos projetos, APIs e automações, utilizando VSCode como ferramenta principal. Busca crescimento profissional e aprendizado contínuo.",
+   "campos":[
+      {
+         "tempId":"temp-1",
+         "chave_perfil":1,
+         "nome_campo":"Portfólio",
+         "tipo_campo":"URL",
+         "valor_campo":"https://github.com/maripere",
+         "chave":1765144164977
+      },
+      {
+         "tempId":"temp-2",
+         "chave_perfil":1,
+         "nome_campo":"Email",
+         "tipo_campo":"URL",
+         "valor_campo":"majose.dev@example.com",
+         "chave":1765144164978
+      },
+      {
+         "tempId":"temp-1",
+         "chave_perfil":1,
+         "nome_campo":"Passaporte",
+         "tipo_campo":"TEXTO",
+         "valor_campo":"8961516913",
+         "chave":1765144670552
+      },
+      {
+         "tempId":"temp-2",
+         "chave_perfil":1,
+         "nome_campo":"Hobby",
+         "tipo_campo":"TEXTO",
+         "valor_campo":"Cafe",
+         "chave":1765144670553
+      }
+   ],
+   "experiencias":[
+      {
+         "tempId":"temp-1",
+         "chave_perfil":1,
+         "nome_experiencia":"Desenvolvimento de APIs com Node.js",
+         "tipo_experiencia":"Experiências profissionais",
+         "descricao_experiencia":"Desenvolveu APIs REST utilizando Node.js, Express e integração com bancos de dados como PostgreSQL e MongoDB. Criou endpoints seguros, padronizados e documentados.",
+         "periodo_inicio":"2024-01-01",
+         "periodo_fim":"2024-12-01",
+         "em_curso":false,
+         "hashtags":"nodejs api rest javascript express",
+         "nome_instituicao":"Projeto Independente",
+         "chave_instituicao":"dev-node-projetos",
+         "chave":1765144164979
+      },
+      {
+         "tempId":"temp-2",
+         "chave_perfil":1,
+         "nome_experiencia":"Desenvolvimento Backend com Java",
+         "tipo_experiencia":"Experiências profissionais",
+         "descricao_experiencia":"Trabalhou em aplicações Java para fins acadêmicos e freelancers, utilizando Spring Boot, JPA, JDBC e boas práticas de arquitetura.",
+         "periodo_inicio":"2023-07-01",
+         "periodo_fim":"2024-11-01",
+         "em_curso":false,
+         "hashtags":"java springboot backend rest jpa",
+         "nome_instituicao":"Projetos Acadêmicos",
+         "chave_instituicao":"dev-java-projetos",
+         "chave":1765144164980
+      },
+      {
+         "tempId":"temp-3",
+         "chave_perfil":1,
+         "nome_experiencia":"JavaScript Avançado",
+         "tipo_experiencia":"Certificados acadêmicos",
+         "descricao_experiencia":"Curso de aprofundamento em JavaScript moderno (ES6+), assincronismo, testes, e melhores práticas.",
+         "periodo_inicio":"2023-02-01",
+         "periodo_fim":"2023-09-01",
+         "em_curso":false,
+         "hashtags":"javascript es6 teste programação",
+         "nome_instituicao":"Alura",
+         "chave_instituicao":"cert-javascript",
+         "chave":1765144164981
+      },
+      {
+         "tempId":"temp-4",
+         "chave_perfil":1,
+         "nome_experiencia":"Ferramentas VSCode",
+         "tipo_experiencia":"Idiomas",
+         "descricao_experiencia":"Domínio do ecossistema do VSCode, com uso de extensões, temas, depuração, Git integrado e ambientes de desenvolvimento personalizados.",
+         "periodo_inicio":"",
+         "periodo_fim":"",
+         "em_curso":true,
+         "hashtags":"vscode editor git produtividade",
+         "nome_instituicao":"Autodidata",
+         "chave_instituicao":"skills-vscode",
+         "chave":1765144164982
+      }
+   ]
+}
